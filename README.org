@@ -1,0 +1,5 @@
+* My spacemacs.d
+
+The main configuration file is =init.el=, and some private layers are listed in =layers/=.
+
+The best editor is neither Emacs nor Vim, but Emacs+Vim!
