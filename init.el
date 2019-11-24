@@ -334,6 +334,8 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   (setq c-basic-offset 4)
   (add-hook 'dante-mode-hook 'flycheck-mode)
+  (setq mac-command-modifier 'meta)
+  (setq mac-option-modifier 'super)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
