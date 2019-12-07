@@ -314,7 +314,7 @@ values."
    ;; `trailing' to delete only the whitespace at end of lines, `changed'to
    ;; delete only whitespace for changed lines or `nil' to disable cleanup.
    ;; (default nil)
-   dotspacemacs-whitespace-cleanup nil
+   dotspacemacs-whitespace-cleanup 'trailing
    ))
 
 (defun dotspacemacs/user-init ()
@@ -383,7 +383,9 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol nil)
  '(global-linum-mode t)
  '(line-number-mode nil)
- '(org-agenda-files (quote ("~/org/review.org" "~/org/homework.org")))
+ '(org-agenda-files
+   (quote
+    ("~/OneDrive/Documents/Org/academic.org" "~/OneDrive/Documents/Org/2019/final.org")))
  '(org-latex-classes
    (quote
     (("ctexbeamer" "\\documentclass[UTF8]{ctexbeamer}"
