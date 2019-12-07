@@ -382,7 +382,7 @@ This function is called at the very end of Spacemacs initialization."
  '(line-number-mode nil)
  '(org-agenda-files
    (quote
-    ("~/OneDrive/Documents/Org/work.org" "~/OneDrive/Documents/Org/academic.org")))
+    ("~/OneDrive/Documents/Org/2019/final.org" "~/OneDrive/Documents/Org/work.org" "~/OneDrive/Documents/Org/academic.org")))
  '(org-latex-classes
    (quote
     (("ctexbeamer" "\\documentclass[UTF8]{ctexbeamer}"
