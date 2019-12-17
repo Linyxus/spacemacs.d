@@ -30,12 +30,19 @@ values."
    dotspacemacs-configuration-layer-path '()
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(python
+   '(
+     (lsp :variables
+          default-nix-wrapper (lambda (args)
+                                (append
+                                 (append (list "nix-shell" "-I" "." "--command" )
+                                         (list (mapconcat 'identity args " ")))
+                                 (list (nix-current-sandbox))))
+          lsp-haskell-process-wrapper-function default-nix-wrapper)
+     python
      restructuredtext
      html
      (elm :variables
           elm-format-on-save t)
-     lsp
      rust
      javascript
      yaml
@@ -77,7 +84,7 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(color-theme-sanityinc-tomorrow sublimity)
+   dotspacemacs-additional-packages '(color-theme-sanityinc-tomorrow sublimity direnv nix-sandbox)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
