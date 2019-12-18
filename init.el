@@ -63,7 +63,7 @@ values."
      ;; better-defaults
      emacs-lisp
      (haskell :variables
-              haskell-completion-backend 'dante
+              haskell-completion-backend 'lsp
               haskell-enable-hindent t)
      ;; git
      (markdown :variables markdown-live-preview-engine 'eww)
@@ -358,6 +358,10 @@ you should place your code here."
   (setq org-agenda-files
         (quote
          ("~/OneDrive/Documents/Org/academic.org" "~/OneDrive/Documents/Org/2019/final.org")))
+  (setq org-agenda-sticky t)
+
+  ;; Enable dante while using lsp (for REPLoid)
+  (add-hook 'lsp-mode-hook 'dante-mode)
   )
 
 (defun dotspacemacs/emacs-custom-settings ()
