@@ -38,6 +38,7 @@ values."
                                          (list (mapconcat 'identity args " ")))
                                  (list (nix-current-sandbox))))
           lsp-haskell-process-wrapper-function default-nix-wrapper)
+     coq
      python
      restructuredtext
      html
