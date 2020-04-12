@@ -166,7 +166,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("IBM Plex Mono"
-                               :size 14
+                               :size 13.5
                                :weight Regular
                                :width normal
                                :powerline-scale 1.1)
@@ -358,14 +358,32 @@ you should place your code here."
 
   ;; Enable org-indent mode in org-mode
   (add-hook 'org-mode-hook 'org-indent-mode)
-  (setq org-agenda-files
-        (quote
-         ("~/OneDrive/Documents/Org/academic.org")))
-  (setq org-agenda-sticky t)
+  (setq org-agenda-files '("~/org/gtd.org"
+                           "~/org/inbox.org"
+                           "~/org/tickler.org"))
+  (setq org-agenda-sticky nil)
+  (setq org-capture-templates '(("t" "Todo [inbox]" entry
+                                 (file+headline "~/org/inbox.org" "Tasks")
+                                 "* TODO %i%?")
+                                ("T" "Tickler" entry
+                                 (file+headline "~/org/tickler.org" "Tickler")
+                                 "* %i%? \n %U")
+                                ("h" "Homework [inbox]" entry
+                                 (file+headline "~/org/inbox.org" "Homework")
+                                 "* HOMEWORK %i%?")))
+  (setq org-refile-targets '(("~/org/gtd.org" :maxlevel . 3)
+                             ("~/org/someday.org" :level . 1)
+                             ("~/org/tickler.org" :maxlevel . 2)))
+  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")
+                            (sequence "HOMEWORK(h)" "FINISHED(f)" "|" "SUBMITTED(s)")))
+  (setq org-agenda-custom-commands
+        '(("c" "Learning courses" tags-todo "@course"
+           ((org-agenda-overriding-header "Course")))
+          ("r" "Doing research" tags-todo "@research"
+           ((org-agenda-overriding-header "Research")))))
 
   ;; Enable dante while using lsp (for REPLoid)
-  (add-hook 'lsp-mode-hook 'dante-mode)
-  )
+  (add-hook 'lsp-mode-hook 'dante-mode))
 
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
@@ -380,7 +398,7 @@ This function is called at the very end of Spacemacs initialization."
  '(TeX-engine (quote xetex))
  '(custom-safe-themes
    (quote
-    ("922e96b74620a11b52434d551cf7115b8274dfa42b289eeec44d93378d0bf093" default)))
+    ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "922e96b74620a11b52434d551cf7115b8274dfa42b289eeec44d93378d0bf093" default)))
  '(evil-want-Y-yank-to-eol nil)
  '(global-linum-mode t)
  '(line-number-mode nil)
