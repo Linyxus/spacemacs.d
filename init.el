@@ -78,6 +78,7 @@ values."
      ;; spell-checking
      syntax-checking
      ;; version-control
+     caddyfile
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -536,7 +537,17 @@ you should place your code here."
             (tags-todo "@miscs" ((org-agenda-overriding-header "@miscs")))))))
 
   ;; Enable dante while using lsp (for REPLoid)
-  (add-hook 'lsp-mode-hook 'dante-mode))
+  (add-hook 'lsp-mode-hook 'dante-mode)
+
+  ;; Disable company-mode in eshell to avoid hanging up
+  (defun disable-company-mode ()
+    (company-mode 0))
+  (add-hook 'eshell-mode-hook #'disable-company-mode)
+
+  (setq telega-proxies
+        (list '(:server "103.209.102.77" :port 63668 :enable t
+                        :type (:@type "proxyTypeMtproto" :secret "dd1615da4c62309761e11309e6794829"))))
+  )
 
 (defun dotspacemacs/emacs-custom-settings ()
   "Emacs custom settings.
@@ -585,7 +596,7 @@ This function is called at the very end of Spacemacs initialization."
       ("\\subsection{%s}" . "\\subsection*{%s}")
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
  '(package-selected-packages
-   '(dap-mode bui yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit sublimity stickyfunc-enhance srefactor spaceline powerline slim-mode shell-pop scss-mode sass-mode restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el paradox spinner org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-bullets open-junk-file nix-sandbox neotree multi-term move-text mmm-mode markdown-toc macrostep lorem-ipsum livid-mode skewer-mode simple-httpd live-py-mode linum-relative link-hint json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc intero indent-guide hydra lv hy-mode hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile projectile helm-mode-manager helm-make helm-hoogle helm-flx helm-descbinds helm-dash dash-docs helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets haml-mode google-translate golden-ratio gnuplot gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck-haskell flycheck-elm flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elm-mode reformatter elisp-slime-nav dumb-jump disaster direnv diminish define-word dash-at-point cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-ghci company-ghc ghc haskell-mode company-cabal company-c-headers company-auctex company-anaconda company column-enforce-mode color-theme-sanityinc-tomorrow coffee-mode cmm-mode cmake-mode clean-aindent-mode clang-format cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed auctex-latexmk auctex anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
+   '(telega caddyfile-mode dap-mode bui yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package toml-mode toc-org tagedit sublimity stickyfunc-enhance srefactor spaceline powerline slim-mode shell-pop scss-mode sass-mode restart-emacs request rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el paradox spinner org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-bullets open-junk-file nix-sandbox neotree multi-term move-text mmm-mode markdown-toc macrostep lorem-ipsum livid-mode skewer-mode simple-httpd live-py-mode linum-relative link-hint json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc intero indent-guide hydra lv hy-mode hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile projectile helm-mode-manager helm-make helm-hoogle helm-flx helm-descbinds helm-dash dash-docs helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets haml-mode google-translate golden-ratio gnuplot gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck-haskell flycheck-elm flycheck pkg-info epl flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elm-mode reformatter elisp-slime-nav dumb-jump disaster direnv diminish define-word dash-at-point cython-mode company-web web-completion-data company-tern dash-functional tern company-statistics company-ghci company-ghc ghc haskell-mode company-cabal company-c-headers company-auctex company-anaconda company column-enforce-mode color-theme-sanityinc-tomorrow coffee-mode cmm-mode cmake-mode clean-aindent-mode clang-format cargo markdown-mode rust-mode bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed auctex-latexmk auctex anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup))
  '(safe-local-variable-values
    '((haskell-completion-backend . ghci)
      (javascript-backend . tide)
