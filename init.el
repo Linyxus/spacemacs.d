@@ -37,9 +37,14 @@ values."
                                  (append (list "nix-shell" "-I" "." "--command" )
                                          (list (mapconcat 'identity args " ")))
                                  (list (nix-current-sandbox))))
-          lsp-haskell-process-wrapper-function default-nix-wrapper)
+          haskell-nix-wrapper (lambda (args)
+                                (apply default-nix-wrapper (list (append args (list "--ghc-option" "-Wwarn")))))
+          lsp-haskell-process-wrapper-function default-nix-wrapper
+          haskell-process-wrapper-function haskell-nix-wrapper
+          )
      coq
      python
+     (go :variables go-tab-width 4)
      restructuredtext
      html
      (elm :variables
