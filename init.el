@@ -90,7 +90,8 @@ values."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(color-theme-sanityinc-tomorrow sublimity direnv nix-sandbox
-                                                                     (fantom-theme :location (recipe :fetcher github :repo "linyxus/fantom-emacs-theme")))
+                                                                     (fantom-theme :location (recipe :fetcher github :repo "linyxus/fantom-emacs-theme"))
+                                                                     verilog-mode)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
