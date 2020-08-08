@@ -530,7 +530,7 @@ you should place your code here."
   (setq org-refile-targets '(("~/org/gtd.org" :maxlevel . 3)
                              ("~/org/someday.org" :level . 1)
                              ("~/org/tickler.org" :maxlevel . 2)))
-  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")
+  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "SOMEDAY(o)" "CHECK(e)" "|" "DONE(d)" "CANCELLED(c)")
                             (sequence "HOMEWORK(h)" "FINISHED(f)" "|" "SUBMITTED(s)")))
   (setq org-agenda-custom-commands
         '(("c" "Learning courses" tags-todo "@course"
