@@ -98,7 +98,7 @@ This function should only modify configuration layer settings."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(color-theme-sanityinc-tomorrow sublimity direnv nix-sandbox
                                                                      (fantom-theme :location (recipe :fetcher github :repo "linyxus/fantom-emacs-theme"))
-                                                                     verilog-mode)
+                                                                     verilog-mode centered-window)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
 
