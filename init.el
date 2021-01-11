@@ -252,8 +252,8 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Operator Mono Lig"
-                               :size 14
+   dotspacemacs-default-font '("Operator Mono SSm Lig"
+                               :size 13
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -540,7 +540,7 @@ you should place your code here."
   (sublimity-mode 1)
 
   ;; Enable emacs-mac's ligature mode for all prog-mode
-  (add-hook 'prog-mode-hook 'mac-auto-operator-composition-mode)
+  ;; (add-hook 'prog-mode-hook 'mac-auto-operator-composition-mode)
 
   ;; Enable org-indent mode in org-mode
   (add-hook 'org-mode-hook 'org-indent-mode)
