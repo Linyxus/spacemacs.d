@@ -47,6 +47,7 @@ This function should only modify configuration layer settings."
      (deft :variables deft-zetteldeft t)
      (scala :variables scala-backend 'scala-metals)
      coq
+     agda
      python
      (go :variables go-tab-width 4)
      restructuredtext
@@ -252,7 +253,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Operator Mono SSm Lig"
+   dotspacemacs-default-font '("Iosevka Term SS04"
                                :size 13
                                :weight normal
                                :width normal
@@ -466,7 +467,7 @@ It should only modify the values of Spacemacs settings."
    ;; %z - mnemonics of buffer, terminal, and keyboard coding systems
    ;; %Z - like %z, but including the end-of-line format
    ;; (default "%I@%S")
-   dotspacemacs-frame-title-format "%U's Emacs"
+   dotspacemacs-frame-title-format "%a (%p) - %S"
 
    ;; Format specification for setting the icon title format
    ;; (default nil - same as frame-title-format)
@@ -541,6 +542,7 @@ you should place your code here."
 
   ;; Enable emacs-mac's ligature mode for all prog-mode
   ;; (add-hook 'prog-mode-hook 'mac-auto-operator-composition-mode)
+  (spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hook-racket-mode)
 
   ;; Enable org-indent mode in org-mode
   (add-hook 'org-mode-hook 'org-indent-mode)
