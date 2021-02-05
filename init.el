@@ -45,7 +45,9 @@ This function should only modify configuration layer settings."
           haskell-process-wrapper-function haskell-nix-wrapper
           )
      (deft :variables deft-zetteldeft t)
-     (scala :variables scala-backend 'scala-metals)
+     (scala :variables
+            scala-backend 'scala-metals
+            scala-auto-treeview nil)
      coq
      agda
      python
@@ -78,7 +80,7 @@ This function should only modify configuration layer settings."
      emacs-lisp
      (haskell :variables
               haskell-completion-backend 'lsp)
-     ;; git
+     git
      (markdown :variables markdown-live-preview-engine 'eww)
      (org :variables
           org-enable-hugo-support t)
@@ -596,6 +598,9 @@ you should place your code here."
 
   ;; Configure Deft
   (setq deft-directory "~/deft")
+
+  ;; Configure scalastyle
+  (setq-default flycheck-scalastylerc "~/.config/scalastyle/scalastyle_config.xml")
   )
 
 (defun dotspacemacs/emacs-custom-settings ()
