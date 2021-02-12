@@ -47,7 +47,8 @@ This function should only modify configuration layer settings."
      (deft :variables deft-zetteldeft t)
      (scala :variables
             scala-backend 'scala-metals
-            scala-auto-treeview nil)
+            scala-auto-treeview nil
+            scala-sbt-window-position 'bottom)
      coq
      agda
      python
@@ -81,7 +82,7 @@ This function should only modify configuration layer settings."
      (haskell :variables
               haskell-completion-backend 'lsp)
      git
-     (markdown :variables markdown-live-preview-engine 'eww)
+     ;; (markdown :variables markdown-live-preview-engine 'eww)
      (org :variables
           org-enable-hugo-support t)
      latex
@@ -413,7 +414,7 @@ It should only modify the values of Spacemacs settings."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers nil
+   dotspacemacs-line-numbers 'relative
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -601,6 +602,8 @@ you should place your code here."
 
   ;; Configure scalastyle
   (setq-default flycheck-scalastylerc "~/.config/scalastyle/scalastyle_config.xml")
+
+  (setq-default git-magit-status-fullscreen t)
   )
 
 (defun dotspacemacs/emacs-custom-settings ()
@@ -619,7 +622,6 @@ This function is called at the very end of Spacemacs initialization."
  '(custom-safe-themes
    '("9283fa483ecced7578f97fdad451535b0173d770b2f433ad0e700decc118ab91" "65ef77d1038e36cb9dd3f514d86713f8242cb1352f5ebf0d2390c7e5bf1fd4d1" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "922e96b74620a11b52434d551cf7115b8274dfa42b289eeec44d93378d0bf093" default))
  '(evil-want-Y-yank-to-eol nil)
- '(global-linum-mode t)
  '(helm-completion-style 'emacs)
  '(line-number-mode nil)
  '(lsp-haskell-server-path "haskell-language-server-wrapper")
