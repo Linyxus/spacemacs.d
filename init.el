@@ -669,13 +669,18 @@ This function is called at the very end of Spacemacs initialization."
       ("\\section{%s}" . "\\section*{%s}")
       ("\\subsection{%s}" . "\\subsection*{%s}")
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+ '(org-preview-latex-default-process 'dvisvgm)
  '(package-selected-packages
    '(poke-mode dap-mode posframe bui yasnippet-snippets yapfify yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify wakatime-mode vterm volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-persp treemacs-evil toml-mode toc-org tern terminal-here tagedit symon symbol-overlay sublimity string-inflection stickyfunc-enhance srefactor spaceline-all-the-icons slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters racer pytest pyenv-mode py-isort pug-mode proof-general prettier-js popwin pippel pipenv pip-requirements pcre2el password-generator paradox overseer org-plus-contrib open-junk-file nodejs-repl nix-sandbox nameless multi-term move-text mmm-mode markdown-toc macrostep lsp-ui lsp-treemacs lsp-python-ms lsp-haskell lorem-ipsum livid-mode live-py-mode link-hint json-navigator json-mode js2-refactor js-doc intero indent-guide importmagic impatient-mode hybrid-mode hungry-delete hlint-refactor hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-lsp helm-ls-git helm-hoogle helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate google-c-style golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gh-md fuzzy font-lock+ flycheck-ycmd flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-package flycheck-haskell flycheck-elsa flycheck-elm flx-ido fantom-theme fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elm-test-runner elm-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode disaster direnv diminish devdocs define-word dante cython-mode cpp-auto-include company-ycmd company-web company-rtags company-reftex company-go company-ghci company-ghc company-coq company-cabal company-c-headers company-auctex company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow cmm-mode clean-aindent-mode clang-format centered-cursor-mode ccls cargo caddyfile-mode blacken auto-yasnippet auto-highlight-symbol auto-compile auctex-latexmk attrap aggressive-indent ace-link ace-jump-helm-line ac-ispell))
  '(safe-local-variable-values
-   '((haskell-completion-backend . ghci)
+   '((lsp-enabled-clients quote
+                          (scala3ls))
+     (haskell-completion-backend . ghci)
      (javascript-backend . tide)
      (javascript-backend . tern)
-     (javascript-backend . lsp))))
+     (javascript-backend . lsp)))
+ '(yas-snippet-dirs
+   '("/Users/linyxus/.emacs.d/private/snippets/" "/Users/linyxus/.emacs.d/layers/+completion/auto-completion/local/snippets" "/Users/linyxus/.spacemacs.d/snippets/" "/Users/linyxus/.emacs.d/elpa/27.1/develop/haskell-snippets-20160919.22/snippets" yasnippet-snippets-dir)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
