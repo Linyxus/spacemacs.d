@@ -606,7 +606,20 @@ you should place your code here."
   ;; Configure scalastyle
   (setq-default flycheck-scalastylerc "~/.config/scalastyle/scalastyle_config.xml")
 
+  ;; Configure magit
   (setq-default git-magit-status-fullscreen t)
+
+  ;; configure dotty lsp
+  (require 'lsp)
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection
+                                     '("cs"
+                                       "launch" "org.scala-lang:scala3-language-server_3.0.0-M4:3.0.0-M4-bin-SNAPSHOT"
+                                       "-M" "dotty.tools.languageserver.Main"
+                                       "--" "-stdio"))
+                    :major-modes '(scala-mode)
+                    :server-id 'scala3ls)
+   )
   )
 
 (defun dotspacemacs/emacs-custom-settings ()
