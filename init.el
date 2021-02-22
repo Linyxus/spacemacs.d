@@ -581,6 +581,9 @@ you should place your code here."
             (tags-todo "@research" ((org-agenda-overriding-header "@research")))
             (tags-todo "@miscs" ((org-agenda-overriding-header "@miscs")))))))
 
+  ;; Enable visual-line-mode in org-mode
+  (add-hook 'org-mode-hook 'visual-line-mode)
+
   ;; Enable dante while using lsp (for REPLoid)
   ;; (add-hook 'lsp-mode-hook 'dante-mode)
 
