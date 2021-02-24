@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+#name : source_block
+#key : src
+#contributor : Yichen Xu
+# --
+#+BEGIN_SRC $1
+$0
+#+END_SRC

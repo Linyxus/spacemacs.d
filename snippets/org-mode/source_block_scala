@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+#name : source_block_scala
+#key : srcsc
+#contributor : Yichen Xu
+# --
+#+BEGIN_SRC scala
+$0
+#+END_SRC
