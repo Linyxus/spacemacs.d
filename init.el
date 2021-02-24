@@ -426,7 +426,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
    ;; over any automatically added closing parenthesis, bracket, quote, etc...
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
-   dotspacemacs-smart-closing-parenthesis nil
+   dotspacemacs-smart-closing-parenthesis t
 
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
@@ -612,14 +612,17 @@ you should place your code here."
   ;; configure dotty lsp
   (require 'lsp)
   (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection
-                                     '("cs"
-                                       "launch" "org.scala-lang:scala3-language-server_3.0.0-M4:3.0.0-M4-bin-SNAPSHOT"
-                                       "-M" "dotty.tools.languageserver.Main"
-                                       "--" "-stdio"))
+    (make-lsp-client :new-connection (lsp-stdio-connection
+                                      '("cs"
+                                        "launch" "org.scala-lang:scala3-language-server_3.0.0-M4:3.0.0-M4-bin-SNAPSHOT"
+                                        "-M" "dotty.tools.languageserver.Main"
+                                        "--" "-stdio"))
                     :major-modes '(scala-mode)
-                    :server-id 'scala3ls)
-   )
+                    :server-id 'scala3ls))
+
+  ;; Use rg for helm-ag
+  (setq-default helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
+
   )
 
 (defun dotspacemacs/emacs-custom-settings ()
