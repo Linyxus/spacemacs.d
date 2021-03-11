@@ -69,8 +69,8 @@ This function should only modify configuration layer settings."
             c-c++-lsp-enable-semantic-highlight t)
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
+     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
+     ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      ;; ivy
      ;; osx
@@ -96,6 +96,8 @@ This function should only modify configuration layer settings."
      syntax-checking
      ;; version-control
      caddyfile
+
+     emoji
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -427,7 +429,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil pressing the closing parenthesis `)' key in insert mode passes
    ;; over any automatically added closing parenthesis, bracket, quote, etc...
    ;; This can be temporary disabled by pressing `C-q' before `)'. (default nil)
-   dotspacemacs-smart-closing-parenthesis t
+   dotspacemacs-smart-closing-parenthesis nil
 
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
@@ -477,6 +479,9 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil - same as frame-title-format)
    dotspacemacs-icon-title-format nil
 
+   ;; Show trailing whitespace (default t)
+   dotspacemacs-show-trailing-whitespace t
+
    ;; Delete whitespace while saving buffer. Possible values are `all'
    ;; to aggressively delete empty line and long sequences of whitespace,
    ;; `trailing' to delete only the whitespace at end of lines, `changed' to
@@ -509,7 +514,10 @@ It should only modify the values of Spacemacs settings."
 
    ;; If nil the home buffer shows the full path of agenda items
    ;; and todos. If non nil only the file name is shown.
-   dotspacemacs-home-shorten-agenda-source nil))
+   dotspacemacs-home-shorten-agenda-source nil
+
+   ;; If non-nil then byte-compile some of Spacemacs files.
+   dotspacemacs-byte-compile nil))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -552,6 +560,7 @@ you should place your code here."
   (add-hook 'org-mode-hook 'org-indent-mode)
   (setq org-agenda-files '("~/org/gtd.org"
                            "~/org/inbox.org"
+                           "~/org/books.org"
                            "~/org/tickler.org"))
   ;; Startup org agenda views in current window defaultly
   (setq-default org-agenda-window-setup 'current-window)
@@ -568,9 +577,12 @@ you should place your code here."
                                  "* HOMEWORK %i%?")))
   (setq org-refile-targets '(("~/org/gtd.org" :maxlevel . 3)
                              ("~/org/someday.org" :level . 1)
+                             ("~/org/books.org" :level . 2)
                              ("~/org/tickler.org" :maxlevel . 2)))
   (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "SOMEDAY(o)" "CHECK(e)" "|" "DONE(d)" "CANCELLED(c)")
-                            (sequence "HOMEWORK(h)" "FINISHED(f)" "|" "SUBMITTED(s)")))
+                            (sequence "HOMEWORK(h)" "FINISHED(f)" "|" "SUBMITTED(s)")
+                            (sequence "BOOK(b)" "READING(r)" "|" "FINISHED(f)")
+                            ))
   (setq org-agenda-custom-commands
         '(("c" "Learning courses" tags-todo "@course"
            ((org-agenda-overriding-header "Course")))
@@ -580,6 +592,7 @@ you should place your code here."
            ((agenda "plain" ((org-agenda-span 'day) (org-agenda-overriding-header "Today")))
             (tags-todo "@course" ((org-agenda-overriding-header "@course")))
             (tags-todo "@research" ((org-agenda-overriding-header "@research")))
+            (tags-todo "@book" ((org-agenda-overriding-header "@book")))
             (tags-todo "@miscs" ((org-agenda-overriding-header "@miscs")))))))
 
   ;; Enable visual-line-mode in org-mode
@@ -592,10 +605,6 @@ you should place your code here."
   (defun disable-company-mode ()
     (company-mode 0))
   (add-hook 'eshell-mode-hook #'disable-company-mode)
-
-  (setq telega-proxies
-        (list '(:server "103.209.102.77" :port 63668 :enable t
-                        :type (:@type "proxyTypeMtproto" :secret "dd1615da4c62309761e11309e6794829"))))
 
   (setq lsp-verilog-server-path "~/.pyenv/versions/3.8.2/bin/hdl_checker")
   (custom-set-variables '(lsp-verilog-server 'hdl-checker))
@@ -615,7 +624,9 @@ you should place your code here."
   (lsp-register-client
     (make-lsp-client :new-connection (lsp-stdio-connection
                                       '("cs"
-                                        "launch" "org.scala-lang:scala3-language-server_3.0.0-M4:3.0.0-M4-bin-SNAPSHOT"
+                                        "launch"
+                                        "org.scala-lang:scala3-language-server_3.0.0-M4:3.0.0-M4-bin-SNAPSHOT"
+                                        ;; "org.scala-lang:scala3-language-server_3.0.0-RC1:3.0.0-RC1"
                                         "-M" "dotty.tools.languageserver.Main"
                                         "--" "-stdio"))
                     :major-modes '(scala-mode)
