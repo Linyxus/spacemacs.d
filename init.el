@@ -89,7 +89,7 @@ This function should only modify configuration layer settings."
      latex
      semantic
      (shell :variables
-            shell-default-shell 'eshell
+            shell-default-shell 'vterm
             shell-default-height 30
             shell-default-position 'bottom)
      ;; spell-checking
@@ -259,8 +259,8 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Liga Operator Mono"
-                               :size 12
+   dotspacemacs-default-font '("SF Mono"
+                               :size 11
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -551,6 +551,7 @@ you should place your code here."
   (require 'sublimity)
   (require 'sublimity-scroll)
   (sublimity-mode 1)
+  (setq-default line-spacing 2)
 
   ;; Enable emacs-mac's ligature mode for all prog-mode
   ;; (add-hook 'prog-mode-hook 'mac-auto-operator-composition-mode)
