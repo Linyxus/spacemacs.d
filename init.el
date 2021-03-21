@@ -105,7 +105,7 @@ This function should only modify configuration layer settings."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(color-theme-sanityinc-tomorrow sublimity direnv nix-sandbox
                                                                      (fantom-theme :location (recipe :fetcher github :repo "linyxus/fantom-emacs-theme"))
-                                                                     verilog-mode centered-window snazzy-theme)
+                                                                     verilog-mode centered-window snazzy-theme modus-themes)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
 
@@ -255,6 +255,9 @@ It should only modify the values of Spacemacs settings."
                          fantom
                          snazzy
                          sanityinc-tomorrow-eighties
+                         sanityinc-tomorrow-day
+                         modus-operandi
+                         modus-vivendi
                          )
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
