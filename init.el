@@ -605,6 +605,9 @@ you should place your code here."
 
   ;; Enable visual-line-mode in org-mode
   (add-hook 'org-mode-hook 'visual-line-mode)
+  ;; Enable org-clock in mode line
+  (spacemacs/toggle-mode-line-org-clock-on)
+
 
   ;; Enable dante while using lsp (for REPLoid)
   ;; (add-hook 'lsp-mode-hook 'dante-mode)
