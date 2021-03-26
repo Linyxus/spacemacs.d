@@ -596,11 +596,12 @@ you should place your code here."
            ((org-agenda-overriding-header "Course")))
           ("r" "Doing research" tags-todo "@research"
            ((org-agenda-overriding-header "Research")))
+          ("i" "Reading books" tags-todo "@book"
+           ((org-agenda-overriding-header "Book")))
           ("o" "Task view"
            ((agenda "plain" ((org-agenda-span 'day) (org-agenda-overriding-header "Today")))
             (tags-todo "@course" ((org-agenda-overriding-header "@course")))
             (tags-todo "@research" ((org-agenda-overriding-header "@research")))
-            (tags-todo "@book" ((org-agenda-overriding-header "@book")))
             (tags-todo "@miscs" ((org-agenda-overriding-header "@miscs")))))))
 
   ;; Enable visual-line-mode in org-mode
