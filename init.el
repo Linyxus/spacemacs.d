@@ -558,7 +558,7 @@ you should place your code here."
   (require 'sublimity)
   (require 'sublimity-scroll)
   (sublimity-mode 1)
-  (setq-default line-spacing 4)
+  (setq-default line-spacing 6)
 
   ;; Enable emacs-mac's ligature mode for all prog-mode
   ;; (add-hook 'prog-mode-hook 'mac-auto-operator-composition-mode)
