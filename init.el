@@ -85,7 +85,8 @@ This function should only modify configuration layer settings."
      git
      ;; (markdown :variables markdown-live-preview-engine 'eww)
      (org :variables
-          org-enable-hugo-support t)
+          org-enable-hugo-support t
+          org-enable-valign t)
      latex
      semantic
      (shell :variables
