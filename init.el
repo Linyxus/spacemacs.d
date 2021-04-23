@@ -106,7 +106,7 @@ This function should only modify configuration layer settings."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(color-theme-sanityinc-tomorrow sublimity direnv nix-sandbox
                                                                      (fantom-theme :location (recipe :fetcher github :repo "linyxus/fantom-emacs-theme"))
-                                                                     verilog-mode centered-window snazzy-theme modus-themes)
+                                                                     verilog-mode centered-window snazzy-theme modus-themes org-timeline)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
 
@@ -609,6 +609,10 @@ you should place your code here."
   (add-hook 'org-mode-hook 'visual-line-mode)
   ;; Enable org-clock in mode line
   (spacemacs/toggle-mode-line-org-clock-on)
+
+  ;; Enable org-timeline in agenda views
+  (require org-timeline)
+  (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)
 
 
   ;; Enable dante while using lsp (for REPLoid)
