@@ -590,8 +590,8 @@ you should place your code here."
                              ("~/org/someday.org" :level . 1)
                              ("~/org/books.org" :level . 2)
                              ("~/org/tickler.org" :maxlevel . 2)))
-  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "SOMEDAY(o)" "CHECK(e)" "PROJECT(p)" "|" "DONE(d)" "CANCELLED(cc)")
-                            (sequence "HOMEWORK(h)" "FINISHED(f)" "|" "SUBMITTED(s)")
+  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "SOMEDAY(o)" "CHECK(e)" "PROJECT(p)" "|" "DONE(d)" "CANCELLED(cc)" "SPLITTED(sp)")
+                            (sequence "HOMEWORK(h)" "FINISHED(f)" "|" "SUBMITTED(sb)")
                             (sequence "BOOK(b)" "READING(r)" "CHAP(ch)" "|" "READ(a)")
                             ))
   (setq org-agenda-custom-commands
