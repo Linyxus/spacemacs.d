@@ -28,7 +28,7 @@ This function should only modify configuration layer settings."
 
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '()
+   dotspacemacs-configuration-layer-path '("~/Dotfiles/abgruszecki-spacemacs-private/")
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
@@ -50,6 +50,7 @@ This function should only modify configuration layer settings."
             scala-backend 'scala-metals
             scala-auto-treeview nil
             scala-sbt-window-position 'bottom)
+     dotty
      coq
      agda
      python
