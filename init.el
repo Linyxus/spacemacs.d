@@ -88,7 +88,9 @@ This function should only modify configuration layer settings."
      (org :variables
           org-enable-hugo-support t
           org-enable-valign t)
-     latex
+     (latex :variables
+            latex-backend 'lsp
+            latex-build-engine 'xetex)
      semantic
      (shell :variables
             shell-default-shell 'vterm
