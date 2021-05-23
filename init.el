@@ -101,6 +101,8 @@ This function should only modify configuration layer settings."
      ;; version-control
      caddyfile
 
+     (neotree :variables neo-theme 'nerd)
+
      emoji
      pdf
      )
