@@ -76,7 +76,8 @@ This function should only modify configuration layer settings."
      ;; ivy
      ;; osx
      ;; themes-megapack
-     helm
+     ;; helm
+     ivy
      racket
      auto-completion
      ;; better-defaults
