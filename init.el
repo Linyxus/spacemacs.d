@@ -666,7 +666,8 @@ you should place your code here."
   (setq-default git-magit-status-fullscreen t)
 
   ;; Use rg for helm-ag
-  (setq-default helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
+  ;; (setq-default helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
+  (setq-default counsel-rg-base-command "rg -M 240 --with-filename --no-heading --line-number --color never %s || true")
 
   )
 
