@@ -91,7 +91,7 @@ This function should only modify configuration layer settings."
           org-enable-valign t)
      (latex :variables
             latex-backend 'lsp
-            latex-build-engine 'xetex)
+            latex-build-engine 'luatex)
      semantic
      (shell :variables
             shell-default-shell 'vterm
@@ -111,7 +111,7 @@ This function should only modify configuration layer settings."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(color-theme-sanityinc-tomorrow sublimity direnv nix-sandbox
+   dotspacemacs-additional-packages '(color-theme-sanityinc-tomorrow sublimity direnv nix-sandbox gruvbox-theme
                                                                      (fantom-theme :location (recipe :fetcher github :repo "linyxus/fantom-emacs-theme"))
                                                                      verilog-mode centered-window snazzy-theme org-timeline nord-theme modus-themes)
    ;; A list of packages that cannot be updated.
@@ -269,6 +269,7 @@ It should only modify the values of Spacemacs settings."
                          nord
                          modus-vivendi
                          modus-operandi
+                         gruvbox-dark-hard
                          fantom
                          snazzy
                          sanityinc-tomorrow-eighties
@@ -280,7 +281,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Fira Code"
+   dotspacemacs-default-font '("SF Mono"
                                :size 11
                                :weight normal
                                :width normal
@@ -688,7 +689,7 @@ This function is called at the very end of Spacemacs initialization."
    ["#080808" "#d70000" "#67b11d" "#875f00" "#268bd2" "#af00df" "#00ffff" "#b2b2b2"])
  '(beacon-color "#f2777a")
  '(custom-safe-themes
-   '("37768a79b479684b0756dec7c0fc7652082910c37d8863c35b702db3f16000f8" "264b639ee1d01cd81f6ab49a63b6354d902c7f7ed17ecf6e8c2bd5eb6d8ca09c" "34ed3e2fa4a1cb2ce7400c7f1a6c8f12931d8021435bad841fdc1192bd1cc7da" "21055a064d6d673f666baaed35a69519841134829982cbbb76960575f43424db" "3325e2c49c8cc81a8cc94b0d57f1975e6562858db5de840b03338529c64f58d1" "2c613514f52fb56d34d00cc074fe6b5f4769b4b7f0cc12d22787808addcef12c" "c0a0c2f40c110b5b212eb4f2dad6ac9cac07eb70380631151fa75556b0100063" "efc8341e278323cd87eda7d7a3736c8837b10ebfaa0d2be978820378d3d1b2e2" "9283fa483ecced7578f97fdad451535b0173d770b2f433ad0e700decc118ab91" "65ef77d1038e36cb9dd3f514d86713f8242cb1352f5ebf0d2390c7e5bf1fd4d1" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "922e96b74620a11b52434d551cf7115b8274dfa42b289eeec44d93378d0bf093" default))
+   '("7661b762556018a44a29477b84757994d8386d6edee909409fabe0631952dad9" "78c4238956c3000f977300c8a079a3a8a8d4d9fee2e68bad91123b58a4aa8588" "4eb6fa2ee436e943b168a0cd8eab11afc0752aebb5d974bba2b2ddc8910fca8f" "6b5c518d1c250a8ce17463b7e435e9e20faa84f3f7defba8b579d4f5925f60c1" "83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "37768a79b479684b0756dec7c0fc7652082910c37d8863c35b702db3f16000f8" "264b639ee1d01cd81f6ab49a63b6354d902c7f7ed17ecf6e8c2bd5eb6d8ca09c" "34ed3e2fa4a1cb2ce7400c7f1a6c8f12931d8021435bad841fdc1192bd1cc7da" "21055a064d6d673f666baaed35a69519841134829982cbbb76960575f43424db" "3325e2c49c8cc81a8cc94b0d57f1975e6562858db5de840b03338529c64f58d1" "2c613514f52fb56d34d00cc074fe6b5f4769b4b7f0cc12d22787808addcef12c" "c0a0c2f40c110b5b212eb4f2dad6ac9cac07eb70380631151fa75556b0100063" "efc8341e278323cd87eda7d7a3736c8837b10ebfaa0d2be978820378d3d1b2e2" "9283fa483ecced7578f97fdad451535b0173d770b2f433ad0e700decc118ab91" "65ef77d1038e36cb9dd3f514d86713f8242cb1352f5ebf0d2390c7e5bf1fd4d1" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "922e96b74620a11b52434d551cf7115b8274dfa42b289eeec44d93378d0bf093" default))
  '(evil-want-Y-yank-to-eol nil)
  '(fci-rule-color "#515151")
  '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)
@@ -742,7 +743,7 @@ This function is called at the very end of Spacemacs initialization."
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
  '(org-preview-latex-default-process 'dvisvgm)
  '(package-selected-packages
-   '(org-tanglesync lentic orderless vertico nord-theme ayu-theme snazzy-theme poke-mode dap-mode posframe bui yasnippet-snippets yapfify yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify wakatime-mode vterm volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-persp treemacs-evil toml-mode toc-org tern terminal-here tagedit symon symbol-overlay sublimity string-inflection stickyfunc-enhance srefactor spaceline-all-the-icons slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters racer pytest pyenv-mode py-isort pug-mode proof-general prettier-js popwin pippel pipenv pip-requirements pcre2el password-generator paradox overseer org-plus-contrib open-junk-file nodejs-repl nix-sandbox nameless multi-term move-text mmm-mode markdown-toc macrostep lsp-ui lsp-treemacs lsp-python-ms lsp-haskell lorem-ipsum livid-mode live-py-mode link-hint json-navigator json-mode js2-refactor js-doc intero indent-guide importmagic impatient-mode hybrid-mode hungry-delete hlint-refactor hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-lsp helm-ls-git helm-hoogle helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate google-c-style golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gh-md fuzzy font-lock+ flycheck-ycmd flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-package flycheck-haskell flycheck-elsa flycheck-elm flx-ido fantom-theme fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elm-test-runner elm-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode disaster direnv diminish devdocs define-word dante cython-mode cpp-auto-include company-ycmd company-web company-rtags company-reftex company-go company-ghci company-ghc company-coq company-cabal company-c-headers company-auctex company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow cmm-mode clean-aindent-mode clang-format centered-cursor-mode ccls cargo caddyfile-mode blacken auto-yasnippet auto-highlight-symbol auto-compile auctex-latexmk attrap aggressive-indent ace-link ace-jump-helm-line ac-ispell))
+   '(gruvbox-theme org-tanglesync lentic orderless vertico nord-theme ayu-theme snazzy-theme poke-mode dap-mode posframe bui yasnippet-snippets yapfify yaml-mode xterm-color ws-butler writeroom-mode winum which-key web-mode web-beautify wakatime-mode vterm volatile-highlights vi-tilde-fringe uuidgen use-package treemacs-projectile treemacs-persp treemacs-evil toml-mode toc-org tern terminal-here tagedit symon symbol-overlay sublimity string-inflection stickyfunc-enhance srefactor spaceline-all-the-icons slim-mode shell-pop scss-mode sass-mode restart-emacs rainbow-delimiters racer pytest pyenv-mode py-isort pug-mode proof-general prettier-js popwin pippel pipenv pip-requirements pcre2el password-generator paradox overseer org-plus-contrib open-junk-file nodejs-repl nix-sandbox nameless multi-term move-text mmm-mode markdown-toc macrostep lsp-ui lsp-treemacs lsp-python-ms lsp-haskell lorem-ipsum livid-mode live-py-mode link-hint json-navigator json-mode js2-refactor js-doc intero indent-guide importmagic impatient-mode hybrid-mode hungry-delete hlint-refactor hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-rtags helm-pydoc helm-purpose helm-projectile helm-mode-manager helm-make helm-lsp helm-ls-git helm-hoogle helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate google-c-style golden-ratio godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc gh-md fuzzy font-lock+ flycheck-ycmd flycheck-rust flycheck-rtags flycheck-pos-tip flycheck-package flycheck-haskell flycheck-elsa flycheck-elm flx-ido fantom-theme fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elm-test-runner elm-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode disaster direnv diminish devdocs define-word dante cython-mode cpp-auto-include company-ycmd company-web company-rtags company-reftex company-go company-ghci company-ghc company-coq company-cabal company-c-headers company-auctex company-anaconda column-enforce-mode color-theme-sanityinc-tomorrow cmm-mode clean-aindent-mode clang-format centered-cursor-mode ccls cargo caddyfile-mode blacken auto-yasnippet auto-highlight-symbol auto-compile auctex-latexmk attrap aggressive-indent ace-link ace-jump-helm-line ac-ispell))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e"))
  '(safe-local-variable-values
    '((lsp-enabled-clients quote
