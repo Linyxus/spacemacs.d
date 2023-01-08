@@ -53,7 +53,7 @@ This function should only modify configuration layer settings."
      dotty
      coq
      agda
-     python
+     ;; python
      (go :variables go-tab-width 4)
      restructuredtext
      html
@@ -63,7 +63,8 @@ This function should only modify configuration layer settings."
                wakatime-cli-path "/Users/linyxus/.nix-profile/bin/wakatime-cli")
      (elm :variables
           elm-format-on-save t)
-     rust
+     (rust :variables
+           lsp-rust-server 'rust-analyzer)
      javascript
      yaml
      (c-c++ :variables
@@ -92,7 +93,9 @@ This function should only modify configuration layer settings."
           org-enable-valign t)
      (latex :variables
             latex-backend 'lsp
-            latex-build-engine 'luatex)
+            latex-build-engine 'luatex
+            latex-view-with-pdf-tools t
+            latex-view-pdf-in-split-window t)
      semantic
      (shell :variables
             shell-default-shell 'vterm
@@ -108,7 +111,11 @@ This function should only modify configuration layer settings."
      emoji
      pdf
 
+     ;; eaf
+
      ;; chinese
+
+     finance
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -116,6 +123,7 @@ This function should only modify configuration layer settings."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages '(color-theme-sanityinc-tomorrow sublimity direnv nix-sandbox gruvbox-theme
                                                                      (fantom-theme :location (recipe :fetcher github :repo "linyxus/fantom-emacs-theme"))
+                                                                     (minimal-theme :location (recipe :fetcher github :repo "anler/minimal-theme"))
                                                                      verilog-mode centered-window snazzy-theme org-timeline nord-theme modus-themes
                                                                      (qrhl-input :location local)
                                                                      telega)
@@ -581,10 +589,11 @@ before packages are loaded. If you are unsure, you should try in setting them in
 
   ;; (setq telega-server-libs-prefix "/opt/homebrew")
 
-  (setq configuration-layer-elpa-archives
-    '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-      ("org-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-      ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")))
+  ;; (setq configuration-layer-elpa-archives
+  ;;   '(("melpa-cn"  . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+  ;;     ("org-cn"    . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
+  ;;     ("gnu-cn"    . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+  ;;     ("nongnu-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")))
   )
 
 (defun dotspacemacs/user-config ()
@@ -594,67 +603,97 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+  (setq initial-buffer-choice (lambda () (get-buffer "*scratch*")))
+
+  (with-eval-after-load 'latex
+    (add-hook 'TeX-mode-hook 'wakatime-mode)
+    )
+
   (setq c-basic-offset 4)
   (add-hook 'dante-mode-hook 'flycheck-mode)
   (setq mac-command-modifier 'meta)
   (setq mac-option-modifier 'super)
-  (require 'sublimity)
-  (require 'sublimity-scroll)
-  (sublimity-mode 1)
+
+  ;; (require 'sublimity)
+  ;; (require 'sublimity-scroll)
+  ;; (sublimity-mode 1)
+
   (setq-default line-spacing 6)
   (load-file "~/.spacemacs.d/layers/agda-input.el")
 
   ;; Enable emacs-mac's ligature mode for all prog-mode
   ;; (add-hook 'prog-mode-hook 'mac-auto-operator-composition-mode)
-  (spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hook-racket-mode)
+  ;; (spacemacs/toggle-evil-safe-lisp-structural-editing-on-register-hook-racket-mode)
 
-  ;; Enable org-indent mode in org-mode
-  (add-hook 'org-mode-hook 'org-indent-mode)
-  (setq org-agenda-files '("~/org/gtd.org"
-                           "~/org/inbox.org"
-                           "~/org/books.org"
-                           "~/org/tickler.org"))
-  ;; Startup org agenda views in current window defaultly
-  (setq-default org-agenda-window-setup 'current-window)
-  ;; Always rebuild agenda views
-  (setq org-agenda-sticky nil)
-  (setq org-capture-templates '(("t" "Todo [inbox]" entry
-                                 (file+headline "~/org/inbox.org" "Tasks")
-                                 "* TODO %i%?")
-                                ("i" "Tickler" entry
-                                 (file+headline "~/org/tickler.org" "Tickler")
-                                 "* %i%? \n %U")
-                                ("h" "Homework [inbox]" entry
-                                 (file+headline "~/org/inbox.org" "Homework")
-                                 "* HOMEWORK %i%?")))
-  (setq org-refile-targets '(("~/org/gtd.org" :maxlevel . 3)
-                             ("~/org/someday.org" :level . 1)
-                             ("~/org/books.org" :level . 2)
-                             ("~/org/tickler.org" :maxlevel . 2)))
-  (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "SOMEDAY(o)" "CHECK(e)" "PROJECT(p)" "|" "DONE(d)" "CANCELLED(cc)" "SPLITTED(sp)")
-                            (sequence "HOMEWORK(h)" "FINISHED(f)" "|" "SUBMITTED(sb)")
-                            (sequence "BOOK(b)" "READING(r)" "CHAP(ch)" "|" "READ(a)")
-                            ))
-  (setq org-agenda-custom-commands
-        '(("c" "Learning courses" tags-todo "@course"
-           ((org-agenda-overriding-header "Course")))
-          ("r" "Doing research" tags-todo "@research"
-           ((org-agenda-overriding-header "Research")))
-          ("i" "Reading books" tags-todo "@book"
-           ((org-agenda-overriding-header "Book")))
-          ("o" "Task view"
-           ((agenda "plain" ((org-agenda-span 'day) (org-agenda-overriding-header "Today")))
-            (tags-todo "@course" ((org-agenda-overriding-header "@course")))
-            (tags-todo "@research" ((org-agenda-overriding-header "@research")))
-            (tags-todo "@miscs" ((org-agenda-overriding-header "@miscs")))))))
+  ;; Hledger
+  (setq ledger-mode-should-check-version nil
+        ledger-report-links-in-register nil
+        ledger-binary-path "hledger")
 
-  ;; org latex packages
-  (add-to-list 'org-latex-packages-alist '("" "booktabs"))
+  (with-eval-after-load 'ledger-mode
+    (setq-default ledger-reports
+                  '(("last_months" "%(binary) balance expenses --tree --no-total --row-total --average --monthly --begin '3 months ago'")
+                    ("this_month" "%(binary) balance expenses --tree --no-total --row-total --average --monthly --begin 'this month'")
+                    ("this_week" "%(binary) balance expenses --tree --no-total --row-total --average --daily --begin 'this week'")
+                    ("weekly" "%(binary) balance expenses --tree --no-total --row-total --average --weekly --begin '4 weeks ago'")
+                    ("daily" "%(binary) balance expenses --tree --no-total --row-total --average --daily --begin '5 days ago'")
+                    ("all_assets" "%(binary) balance assets liabilities --tree")))
+    (setq-default ledger-report-auto-width nil)
+    (setq-default ledger-report-use-native-highlighting nil))
 
-  ;; Enable visual-line-mode in org-mode
-  (add-hook 'org-mode-hook 'visual-line-mode)
-  ;; Enable org-clock in mode line
-  (spacemacs/toggle-mode-line-org-clock-on)
+  (with-eval-after-load 'org
+    ;; Enable org-indent mode in org-mode
+    (add-hook 'org-mode-hook 'org-indent-mode)
+    (setq org-agenda-files '("~/org/gtd.org"
+                            "~/org/inbox.org"
+                            "~/org/books.org"
+                            "~/org/tickler.org"))
+    ;; Startup org agenda views in current window defaultly
+    (setq-default org-agenda-window-setup 'current-window)
+    ;; Always rebuild agenda views
+    (setq org-agenda-sticky nil)
+    (setq org-capture-templates '(("t" "Todo [inbox]" entry
+                                  (file+headline "~/org/inbox.org" "Tasks")
+                                  "* TODO %i%?")
+                                  ("i" "Tickler" entry
+                                  (file+headline "~/org/tickler.org" "Tickler")
+                                  "* %i%? \n %U")
+                                  ("h" "Homework [inbox]" entry
+                                  (file+headline "~/org/inbox.org" "Homework")
+                                  "* HOMEWORK %i%?")))
+    (setq org-refile-targets '(("~/org/gtd.org" :maxlevel . 3)
+                              ("~/org/someday.org" :level . 1)
+                              ("~/org/books.org" :level . 2)
+                              ("~/org/tickler.org" :maxlevel . 2)))
+    (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "SOMEDAY(o)" "CHECK(e)" "PROJECT(p)" "|" "DONE(d)" "CANCELLED(cc)" "SPLITTED(sp)")
+                              (sequence "HOMEWORK(h)" "FINISHED(f)" "|" "SUBMITTED(sb)")
+                              (sequence "BOOK(b)" "READING(r)" "CHAP(ch)" "|" "READ(a)")
+                              ))
+    (setq org-agenda-custom-commands
+          '(("c" "Learning courses" tags-todo "@course"
+            ((org-agenda-overriding-header "Course")))
+            ("r" "Doing research" tags-todo "@research"
+            ((org-agenda-overriding-header "Research")))
+            ("i" "Reading books" tags-todo "@book"
+            ((org-agenda-overriding-header "Book")))
+            ("o" "Task view"
+            ((agenda "plain" ((org-agenda-span 'day) (org-agenda-overriding-header "Today")))
+              (tags-todo "@course" ((org-agenda-overriding-header "@course")))
+              (tags-todo "@research" ((org-agenda-overriding-header "@research")))
+              (tags-todo "@miscs" ((org-agenda-overriding-header "@miscs")))))))
+
+    ;; org latex packages
+    ;; (add-to-list 'org-latex-packages-alist '("" "booktabs"))
+
+    ;; Enable visual-line-mode in org-mode
+    (add-hook 'org-mode-hook 'visual-line-mode)
+    ;; Enable org-clock in mode line
+    (spacemacs/toggle-mode-line-org-clock-on)
+
+    ;; scale up LaTeX previews
+    (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+    )
+
 
   ;; Enable visual-line-mode in Coq-mode
   (add-hook 'coq-mode-hook 'visual-line-mode)
@@ -662,7 +701,6 @@ you should place your code here."
   ;; Enable org-timeline in agenda views
   ;; (require org-timeline)
   ;; (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append)
-
 
   ;; Enable dante while using lsp (for REPLoid)
   ;; (add-hook 'lsp-mode-hook 'dante-mode)
@@ -692,6 +730,9 @@ you should place your code here."
   ;; Telega
   (setq telega-proxies '((:server "127.0.0.1" :port 7890 :enable t :type (:@type "proxyTypeHttp" :username "" :password "" :http_only :false))))
 
+  ;; direnv
+  ;; (require 'direnv)
+  ;; (direnv-mode)
   )
 
 (defun dotspacemacs/emacs-custom-settings ()
@@ -711,12 +752,12 @@ This function is called at the very end of Spacemacs initialization."
    ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
  '(beacon-color "#f2777a")
  '(custom-safe-themes
-   '("795d2a48b56beaa6a811bcf6aad9551878324f81f66cac964f699871491710fa" "e27c391095dcee30face81de5c8354afb2fbe69143e1129109a16d17871fc055" "7661b762556018a44a29477b84757994d8386d6edee909409fabe0631952dad9" "78c4238956c3000f977300c8a079a3a8a8d4d9fee2e68bad91123b58a4aa8588" "4eb6fa2ee436e943b168a0cd8eab11afc0752aebb5d974bba2b2ddc8910fca8f" "6b5c518d1c250a8ce17463b7e435e9e20faa84f3f7defba8b579d4f5925f60c1" "83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "37768a79b479684b0756dec7c0fc7652082910c37d8863c35b702db3f16000f8" "264b639ee1d01cd81f6ab49a63b6354d902c7f7ed17ecf6e8c2bd5eb6d8ca09c" "34ed3e2fa4a1cb2ce7400c7f1a6c8f12931d8021435bad841fdc1192bd1cc7da" "21055a064d6d673f666baaed35a69519841134829982cbbb76960575f43424db" "3325e2c49c8cc81a8cc94b0d57f1975e6562858db5de840b03338529c64f58d1" "2c613514f52fb56d34d00cc074fe6b5f4769b4b7f0cc12d22787808addcef12c" "c0a0c2f40c110b5b212eb4f2dad6ac9cac07eb70380631151fa75556b0100063" "efc8341e278323cd87eda7d7a3736c8837b10ebfaa0d2be978820378d3d1b2e2" "9283fa483ecced7578f97fdad451535b0173d770b2f433ad0e700decc118ab91" "65ef77d1038e36cb9dd3f514d86713f8242cb1352f5ebf0d2390c7e5bf1fd4d1" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "922e96b74620a11b52434d551cf7115b8274dfa42b289eeec44d93378d0bf093" default))
+   '("3199be8536de4a8300eaf9ce6d864a35aa802088c0925e944e2b74a574c68fd0" "7dc296b80df1b29bfc4062d1a66ee91efb462d6a7a934955e94e786394d80b71" "f8e86823197cb9f48666c36734ce73543e6a9b3101282eae8b430ef93be16ccf" "41c478598f93d62f46ec0ef9fbf351a02012e8651e2a0786e0f85e6ac598f599" "b0b76d75c85dce0bb0c6db786bb73bafa4e74caea101d8653a2fc6cde3e3a4d4" "fb3f55ac1ca4d5ba0d35b5507e28fa392b59e796a40d25497b23fd857892f74d" "5612c4b573b3f3b9e3763ce45e29f5c45083c0742be1a9d62193e840cd51eb75" "81406f2e0fd3424aaf89dcf41ce50526784561129bd8fc5e11d55655931e75e6" "5d7bf3ce124535c2415b69c7e017a6258150a11cdfc3029b53310ff50e794967" "33cd1d4d57fdad620c7578ddf7372acb9a7ea106903c152b06781f8554b8e4c9" "e128dc48a4d4754c529057713bfe215fbad0c851e8cb4ecc2e41997a6950dc33" "47d2c2996ec0d4a0f6562d1f06b8f27ed2dec9504f6021d83ae082face3246cd" "d97092d4087a2a1455121ad6ff299130083853ba3c4c6b325685a59d68f8e596" "2e59c24f4daea67be42e30f1e9b40b3169708c5dc97c55e94347380be783499b" "88550f210943832ace0ab1655c541f3912ceaab30e83843682d623c6808502ad" "4780d7ce6e5491e2c1190082f7fe0f812707fc77455616ab6f8b38e796cbffa9" "3e335d794ed3030fefd0dbd7ff2d3555e29481fe4bbb0106ea11c660d6001767" "cc0dbb53a10215b696d391a90de635ba1699072745bf653b53774706999208e3" "795d2a48b56beaa6a811bcf6aad9551878324f81f66cac964f699871491710fa" "e27c391095dcee30face81de5c8354afb2fbe69143e1129109a16d17871fc055" "7661b762556018a44a29477b84757994d8386d6edee909409fabe0631952dad9" "78c4238956c3000f977300c8a079a3a8a8d4d9fee2e68bad91123b58a4aa8588" "4eb6fa2ee436e943b168a0cd8eab11afc0752aebb5d974bba2b2ddc8910fca8f" "6b5c518d1c250a8ce17463b7e435e9e20faa84f3f7defba8b579d4f5925f60c1" "83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "37768a79b479684b0756dec7c0fc7652082910c37d8863c35b702db3f16000f8" "264b639ee1d01cd81f6ab49a63b6354d902c7f7ed17ecf6e8c2bd5eb6d8ca09c" "34ed3e2fa4a1cb2ce7400c7f1a6c8f12931d8021435bad841fdc1192bd1cc7da" "21055a064d6d673f666baaed35a69519841134829982cbbb76960575f43424db" "3325e2c49c8cc81a8cc94b0d57f1975e6562858db5de840b03338529c64f58d1" "2c613514f52fb56d34d00cc074fe6b5f4769b4b7f0cc12d22787808addcef12c" "c0a0c2f40c110b5b212eb4f2dad6ac9cac07eb70380631151fa75556b0100063" "efc8341e278323cd87eda7d7a3736c8837b10ebfaa0d2be978820378d3d1b2e2" "9283fa483ecced7578f97fdad451535b0173d770b2f433ad0e700decc118ab91" "65ef77d1038e36cb9dd3f514d86713f8242cb1352f5ebf0d2390c7e5bf1fd4d1" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "922e96b74620a11b52434d551cf7115b8274dfa42b289eeec44d93378d0bf093" default))
  '(evil-want-Y-yank-to-eol nil)
- '(fci-rule-color "#515151")
+ '(fci-rule-color "#515151" t)
  '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)
  '(frame-background-mode 'dark)
- '(helm-completion-style 'emacs)
+ '(helm-completion-style 'emacs t)
  '(hl-todo-keyword-faces
    '(("TODO" . "#dc752f")
      ("NEXT" . "#dc752f")
@@ -733,6 +774,11 @@ This function is called at the very end of Spacemacs initialization."
      ("FIXME" . "#dc752f")
      ("XXX+" . "#dc752f")
      ("\\?\\?\\?+" . "#dc752f")))
+ '(ledger-reports
+   '(("all_assets" "hledger [[ledger-mode-flags]] balance assets liabilities --tree")
+     ("last_months" "%(binary) balance expenses --tree --no-total --row-total --average --monthly --begin '3 months ago'")
+     ("this_month" "%(binary) balance expenses --tree --no-total --row-total --average --monthly --begin 'this month'")
+     ("this_week" "%(binary) balance expenses --tree --no-total --row-total --average --daily --begin 'this week'")))
  '(lsp-haskell-server-path "haskell-language-server-wrapper")
  '(lsp-verilog-server 'hdl-checker)
  '(org-latex-classes
@@ -764,7 +810,7 @@ This function is called at the very end of Spacemacs initialization."
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
  '(org-preview-latex-default-process 'dvisvgm)
  '(package-selected-packages
-   '(telega texfrag vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify wakatime-mode volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree toml-mode toc-org tagedit sublimity stickyfunc-enhance srefactor spaceline powerline slim-mode shell-pop scss-mode scala-mode sbt-mode sass-mode restart-emacs request rainbow-delimiters racket-mode racer pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el paradox spinner org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-plus-contrib org-mime org-download org-bullets open-junk-file noflet nix-sandbox neotree multi-term move-text mmm-mode markdown-toc macrostep lorem-ipsum livid-mode skewer-mode simple-httpd live-py-mode linum-relative link-hint json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc intero insert-shebang indent-guide hydra lv hy-mode dash-functional hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile projectile helm-mode-manager helm-make helm-hoogle helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets haml-mode google-translate golden-ratio go-guru go-eldoc gnuplot gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck-haskell flycheck-elm flycheck pkg-info epl flx-ido flx fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elm-mode reformatter elisp-slime-nav dumb-jump disaster direnv diminish deft define-word cython-mode company-web web-completion-data company-statistics company-shell company-go go-mode company-ghci company-ghc ghc haskell-mode company-cabal company-c-headers company-auctex company-anaconda company column-enforce-mode color-theme-sanityinc-tomorrow coffee-mode cmm-mode cmake-mode clean-aindent-mode clang-format centered-window cargo markdown-mode rust-mode caddyfile-mode loop bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed auctex anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup fantom-theme))
+   '(night-owl-theme ef-themes telega texfrag vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify wakatime-mode volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree toml-mode toc-org tagedit sublimity stickyfunc-enhance srefactor spaceline powerline slim-mode shell-pop scss-mode scala-mode sbt-mode sass-mode restart-emacs request rainbow-delimiters racket-mode racer pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el paradox spinner org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-plus-contrib org-mime org-download org-bullets open-junk-file noflet nix-sandbox neotree multi-term move-text mmm-mode markdown-toc macrostep lorem-ipsum livid-mode skewer-mode simple-httpd live-py-mode linum-relative link-hint json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc intero insert-shebang indent-guide hydra lv hy-mode dash-functional hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile projectile helm-mode-manager helm-make helm-hoogle helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets haml-mode google-translate golden-ratio go-guru go-eldoc gnuplot gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck-haskell flycheck-elm flycheck pkg-info epl flx-ido flx fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elm-mode reformatter elisp-slime-nav dumb-jump disaster direnv diminish deft define-word cython-mode company-web web-completion-data company-statistics company-shell company-go go-mode company-ghci company-ghc ghc haskell-mode company-cabal company-c-headers company-auctex company-anaconda company column-enforce-mode color-theme-sanityinc-tomorrow coffee-mode cmm-mode cmake-mode clean-aindent-mode clang-format centered-window cargo markdown-mode rust-mode caddyfile-mode loop bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed auctex anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup fantom-theme))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e"))
  '(safe-local-variable-values
    '((eval turn-off-auto-fill)
@@ -805,7 +851,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(highlight-parentheses-highlight ((nil (:weight ultra-bold))) t))
 )
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
