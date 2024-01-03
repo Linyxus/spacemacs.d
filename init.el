@@ -642,7 +642,17 @@ you should place your code here."
   (with-eval-after-load 'ledger-mode
     (setq-default ledger-reports
                   '(("last_months" "%(binary) balance expenses --tree --no-total --row-total --average --monthly --begin '6 months ago'")
+                    ("last_months (base0)" "%(binary) balance 'expenses:(housing:rent|insurance)' --tree --no-total --row-total --average --monthly --begin '6 months ago'")
+                    ("last_months (base1)" "%(binary) balance 'expenses:(food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --monthly --begin '6 months ago'")
+                    ("last_months (base0+base1)" "%(binary) balance 'expenses:(housing:rent|insurance|food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --monthly --begin '6 months ago'")
+                    ("last_months (extra)" "%(binary) balance expenses 'not:expenses:(housing:rent|insurance|food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --monthly --begin '6 months ago'")
+                    ("weekly (base1)" "%(binary) balance 'expenses:(food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --weekly --begin '6 weeks ago'")
+                    ("weekly (extra)" "%(binary) balance expenses 'not:expenses:(housing:rent|insurance|food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --weekly --begin '6 weeks ago'")
+                    ("this week (base1)" "%(binary) balance 'expenses:(food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --daily --begin 'this week'")
+                    ("this week (extra)" "%(binary) balance expenses 'not:expenses:(housing:rent|insurance|food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --daily --begin 'this week'")
                     ("this_month" "%(binary) balance expenses --tree --no-total --row-total --average --monthly --begin 'this month'")
+                    ("this month (base1)" "%(binary) balance 'expenses:(food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --daily --transpose --begin 'this month'")
+                    ("this month (extra)" "%(binary) balance expenses 'not:expenses:(housing:rent|insurance|food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --daily --transpose --begin 'this month'")
                     ("this_week" "%(binary) balance expenses --tree --no-total --row-total --average --daily --begin 'this week'")
                     ("weekly" "%(binary) balance expenses --tree --no-total --row-total --average --weekly --begin '4 weeks ago'")
                     ("weekly (more)" "%(binary) balance expenses --tree --no-total --row-total --average --weekly --begin '10 weeks ago'")
