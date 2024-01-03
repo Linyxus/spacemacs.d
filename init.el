@@ -126,7 +126,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages '(color-theme-sanityinc-tomorrow sublimity direnv nix-sandbox gruvbox-theme ef-themes
                                                                      (fantom-theme :location (recipe :fetcher github :repo "linyxus/fantom-emacs-theme"))
                                                                      (minimal-theme :location (recipe :fetcher github :repo "anler/minimal-theme"))
-                                                                     verilog-mode centered-window snazzy-theme org-timeline nord-theme modus-themes standard-themes
+                                                                     verilog-mode centered-window snazzy-theme org-timeline nord-theme modus-themes standard-themes catppuccin-theme
                                                                      (qrhl-input :location local)
                                                                      telega)
    ;; A list of packages that cannot be updated.
