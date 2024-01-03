@@ -714,6 +714,11 @@ you should place your code here."
     (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
     )
 
+  ;; Configure Scala layer
+  (defun disable-scala-indent ()
+    (setq indent-line-function 'indent-relative-first-indent-point))
+
+  (add-hook 'scala-mode-hook #'disable-scala-indent)
 
   ;; Enable visual-line-mode in Coq-mode
   (add-hook 'coq-mode-hook 'visual-line-mode)
