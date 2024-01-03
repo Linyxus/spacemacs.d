@@ -779,128 +779,170 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(TeX-engine 'xetex)
+ '(TeX-engine 'xetex t)
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
    ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
  '(beacon-color "#f2777a")
  '(connection-local-criteria-alist
-   '(((:application eshell)
-      eshell-connection-default-profile)
+   '(((:application tramp :protocol "kubernetes")
+      tramp-kubernetes-connection-local-default-profile)
+     ((:application eshell) eshell-connection-default-profile)
      ((:application tramp :protocol "flatpak")
-      tramp-container-connection-local-default-flatpak-profile)
+      tramp-container-connection-local-default-flatpak-profile
+      tramp-flatpak-connection-local-default-profile)
      ((:application tramp :machine "localhost")
       tramp-connection-local-darwin-ps-profile)
      ((:application tramp :machine "Yichens-MacBook-Pro.local")
       tramp-connection-local-darwin-ps-profile)
-     ((:application tramp)
-      tramp-connection-local-default-system-profile tramp-connection-local-default-shell-profile)))
+     ((:application tramp) tramp-connection-local-default-system-profile
+      tramp-connection-local-default-shell-profile)))
  '(connection-local-profile-alist
-   '((eshell-connection-default-profile
-      (eshell-path-env-list))
+   '((tramp-flatpak-connection-local-default-profile
+      (tramp-remote-path "/app/bin" tramp-default-remote-path "/bin" "/usr/bin"
+                         "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin"
+                         "/local/bin" "/local/freeware/bin" "/local/gnu/bin"
+                         "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin"
+                         "/opt/bin" "/opt/sbin" "/opt/local/bin"))
+     (tramp-kubernetes-connection-local-default-profile
+      (tramp-config-check . tramp-kubernetes--current-context-data)
+      (tramp-extra-expand-args 97
+                               (tramp-kubernetes--container
+                                (car tramp-current-connection))
+                               104
+                               (tramp-kubernetes--pod
+                                (car tramp-current-connection))
+                               120
+                               (tramp-kubernetes--context-namespace
+                                (car tramp-current-connection))))
+     (eshell-connection-default-profile (eshell-path-env-list))
      (tramp-container-connection-local-default-flatpak-profile
-      (tramp-remote-path "/app/bin" tramp-default-remote-path "/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin" "/local/bin" "/local/freeware/bin" "/local/gnu/bin" "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin" "/opt/bin" "/opt/sbin" "/opt/local/bin"))
+      (tramp-remote-path "/app/bin" tramp-default-remote-path "/bin" "/usr/bin"
+                         "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin"
+                         "/local/bin" "/local/freeware/bin" "/local/gnu/bin"
+                         "/usr/freeware/bin" "/usr/pkg/bin" "/usr/contrib/bin"
+                         "/opt/bin" "/opt/sbin" "/opt/local/bin"))
      (tramp-connection-local-darwin-ps-profile
-      (tramp-process-attributes-ps-args "-acxww" "-o" "pid,uid,user,gid,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" "-o" "state=abcde" "-o" "ppid,pgid,sess,tty,tpgid,minflt,majflt,time,pri,nice,vsz,rss,etime,pcpu,pmem,args")
-      (tramp-process-attributes-ps-format
-       (pid . number)
-       (euid . number)
-       (user . string)
-       (egid . number)
-       (comm . 52)
-       (state . 5)
-       (ppid . number)
-       (pgrp . number)
-       (sess . number)
-       (ttname . string)
-       (tpgid . number)
-       (minflt . number)
-       (majflt . number)
-       (time . tramp-ps-time)
-       (pri . number)
-       (nice . number)
-       (vsize . number)
-       (rss . number)
-       (etime . tramp-ps-time)
-       (pcpu . number)
-       (pmem . number)
-       (args)))
+      (tramp-process-attributes-ps-args "-acxww" "-o"
+                                        "pid,uid,user,gid,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                        "-o" "state=abcde" "-o"
+                                        "ppid,pgid,sess,tty,tpgid,minflt,majflt,time,pri,nice,vsz,rss,etime,pcpu,pmem,args")
+      (tramp-process-attributes-ps-format (pid . number) (euid . number)
+                                          (user . string) (egid . number)
+                                          (comm . 52) (state . 5)
+                                          (ppid . number) (pgrp . number)
+                                          (sess . number) (ttname . string)
+                                          (tpgid . number) (minflt . number)
+                                          (majflt . number)
+                                          (time . tramp-ps-time) (pri . number)
+                                          (nice . number) (vsize . number)
+                                          (rss . number) (etime . tramp-ps-time)
+                                          (pcpu . number) (pmem . number) (args)))
      (tramp-connection-local-busybox-ps-profile
-      (tramp-process-attributes-ps-args "-o" "pid,user,group,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" "-o" "stat=abcde" "-o" "ppid,pgid,tty,time,nice,etime,args")
-      (tramp-process-attributes-ps-format
-       (pid . number)
-       (user . string)
-       (group . string)
-       (comm . 52)
-       (state . 5)
-       (ppid . number)
-       (pgrp . number)
-       (ttname . string)
-       (time . tramp-ps-time)
-       (nice . number)
-       (etime . tramp-ps-time)
-       (args)))
+      (tramp-process-attributes-ps-args "-o"
+                                        "pid,user,group,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                        "-o" "stat=abcde" "-o"
+                                        "ppid,pgid,tty,time,nice,etime,args")
+      (tramp-process-attributes-ps-format (pid . number) (user . string)
+                                          (group . string) (comm . 52)
+                                          (state . 5) (ppid . number)
+                                          (pgrp . number) (ttname . string)
+                                          (time . tramp-ps-time) (nice . number)
+                                          (etime . tramp-ps-time) (args)))
      (tramp-connection-local-bsd-ps-profile
-      (tramp-process-attributes-ps-args "-acxww" "-o" "pid,euid,user,egid,egroup,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" "-o" "state,ppid,pgid,sid,tty,tpgid,minflt,majflt,time,pri,nice,vsz,rss,etimes,pcpu,pmem,args")
-      (tramp-process-attributes-ps-format
-       (pid . number)
-       (euid . number)
-       (user . string)
-       (egid . number)
-       (group . string)
-       (comm . 52)
-       (state . string)
-       (ppid . number)
-       (pgrp . number)
-       (sess . number)
-       (ttname . string)
-       (tpgid . number)
-       (minflt . number)
-       (majflt . number)
-       (time . tramp-ps-time)
-       (pri . number)
-       (nice . number)
-       (vsize . number)
-       (rss . number)
-       (etime . number)
-       (pcpu . number)
-       (pmem . number)
-       (args)))
-     (tramp-connection-local-default-shell-profile
-      (shell-file-name . "/bin/sh")
-      (shell-command-switch . "-c"))
-     (tramp-connection-local-default-system-profile
-      (path-separator . ":")
-      (null-device . "/dev/null"))))
+      (tramp-process-attributes-ps-args "-acxww" "-o"
+                                        "pid,euid,user,egid,egroup,comm=abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                        "-o"
+                                        "state,ppid,pgid,sid,tty,tpgid,minflt,majflt,time,pri,nice,vsz,rss,etimes,pcpu,pmem,args")
+      (tramp-process-attributes-ps-format (pid . number) (euid . number)
+                                          (user . string) (egid . number)
+                                          (group . string) (comm . 52)
+                                          (state . string) (ppid . number)
+                                          (pgrp . number) (sess . number)
+                                          (ttname . string) (tpgid . number)
+                                          (minflt . number) (majflt . number)
+                                          (time . tramp-ps-time) (pri . number)
+                                          (nice . number) (vsize . number)
+                                          (rss . number) (etime . number)
+                                          (pcpu . number) (pmem . number) (args)))
+     (tramp-connection-local-default-shell-profile (shell-file-name . "/bin/sh")
+                                                   (shell-command-switch . "-c"))
+     (tramp-connection-local-default-system-profile (path-separator . ":")
+                                                    (null-device . "/dev/null"))))
  '(custom-safe-themes
-   '("8b930a6af47e826c12be96de5c28f1d142dccab1927f196589dafffad0fc9652" "4b92d689600e9851d098c73951f7075f8fd0bb705b4d68806305cf3e4f001c9e" "75441a94fb5e6943320ce21aa5acf9cb24c3f87915666800f3906af8e85e0892" "84c2c93ce268699838b51eeeaaec46e064d5048e232b39113b73209be3ef6fd4" "72cc2c6c5642b117034b99dcc3a33ff97a66593429c7f44cd21b995b17eebd4e" "544bb10f6c6d7338be3bc73d147f26273d62e094e7643bfa842dffa9d742e30a" "6a94122cfa72865c9b7a211ee461e4cc8834451d035fb43ffa478a630dec3d5b" "cd65fad3243fb2b04660fb5c56152e27030e904b5f06b743bb77cac85c5327b7" "9fad628c15f1e94af44e07b00ebe3c15109be28f4d73adf4a9e22090845cbce9" "279f74e365ba5aade8bc702e0588f0c90b5dee6cf04cf61f9455661700a6ebeb" "3199be8536de4a8300eaf9ce6d864a35aa802088c0925e944e2b74a574c68fd0" "7dc296b80df1b29bfc4062d1a66ee91efb462d6a7a934955e94e786394d80b71" "f8e86823197cb9f48666c36734ce73543e6a9b3101282eae8b430ef93be16ccf" "41c478598f93d62f46ec0ef9fbf351a02012e8651e2a0786e0f85e6ac598f599" "b0b76d75c85dce0bb0c6db786bb73bafa4e74caea101d8653a2fc6cde3e3a4d4" "fb3f55ac1ca4d5ba0d35b5507e28fa392b59e796a40d25497b23fd857892f74d" "5612c4b573b3f3b9e3763ce45e29f5c45083c0742be1a9d62193e840cd51eb75" "81406f2e0fd3424aaf89dcf41ce50526784561129bd8fc5e11d55655931e75e6" "5d7bf3ce124535c2415b69c7e017a6258150a11cdfc3029b53310ff50e794967" "33cd1d4d57fdad620c7578ddf7372acb9a7ea106903c152b06781f8554b8e4c9" "e128dc48a4d4754c529057713bfe215fbad0c851e8cb4ecc2e41997a6950dc33" "47d2c2996ec0d4a0f6562d1f06b8f27ed2dec9504f6021d83ae082face3246cd" "d97092d4087a2a1455121ad6ff299130083853ba3c4c6b325685a59d68f8e596" "2e59c24f4daea67be42e30f1e9b40b3169708c5dc97c55e94347380be783499b" "88550f210943832ace0ab1655c541f3912ceaab30e83843682d623c6808502ad" "4780d7ce6e5491e2c1190082f7fe0f812707fc77455616ab6f8b38e796cbffa9" "3e335d794ed3030fefd0dbd7ff2d3555e29481fe4bbb0106ea11c660d6001767" "cc0dbb53a10215b696d391a90de635ba1699072745bf653b53774706999208e3" "795d2a48b56beaa6a811bcf6aad9551878324f81f66cac964f699871491710fa" "e27c391095dcee30face81de5c8354afb2fbe69143e1129109a16d17871fc055" "7661b762556018a44a29477b84757994d8386d6edee909409fabe0631952dad9" "78c4238956c3000f977300c8a079a3a8a8d4d9fee2e68bad91123b58a4aa8588" "4eb6fa2ee436e943b168a0cd8eab11afc0752aebb5d974bba2b2ddc8910fca8f" "6b5c518d1c250a8ce17463b7e435e9e20faa84f3f7defba8b579d4f5925f60c1" "83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6" "37768a79b479684b0756dec7c0fc7652082910c37d8863c35b702db3f16000f8" "264b639ee1d01cd81f6ab49a63b6354d902c7f7ed17ecf6e8c2bd5eb6d8ca09c" "34ed3e2fa4a1cb2ce7400c7f1a6c8f12931d8021435bad841fdc1192bd1cc7da" "21055a064d6d673f666baaed35a69519841134829982cbbb76960575f43424db" "3325e2c49c8cc81a8cc94b0d57f1975e6562858db5de840b03338529c64f58d1" "2c613514f52fb56d34d00cc074fe6b5f4769b4b7f0cc12d22787808addcef12c" "c0a0c2f40c110b5b212eb4f2dad6ac9cac07eb70380631151fa75556b0100063" "efc8341e278323cd87eda7d7a3736c8837b10ebfaa0d2be978820378d3d1b2e2" "9283fa483ecced7578f97fdad451535b0173d770b2f433ad0e700decc118ab91" "65ef77d1038e36cb9dd3f514d86713f8242cb1352f5ebf0d2390c7e5bf1fd4d1" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "922e96b74620a11b52434d551cf7115b8274dfa42b289eeec44d93378d0bf093" default))
+   '("90ce422bb0cbadf4a661bd08c89492509a099c258deae6f5ea87271723126c59"
+     "8b930a6af47e826c12be96de5c28f1d142dccab1927f196589dafffad0fc9652"
+     "4b92d689600e9851d098c73951f7075f8fd0bb705b4d68806305cf3e4f001c9e"
+     "75441a94fb5e6943320ce21aa5acf9cb24c3f87915666800f3906af8e85e0892"
+     "84c2c93ce268699838b51eeeaaec46e064d5048e232b39113b73209be3ef6fd4"
+     "72cc2c6c5642b117034b99dcc3a33ff97a66593429c7f44cd21b995b17eebd4e"
+     "544bb10f6c6d7338be3bc73d147f26273d62e094e7643bfa842dffa9d742e30a"
+     "6a94122cfa72865c9b7a211ee461e4cc8834451d035fb43ffa478a630dec3d5b"
+     "cd65fad3243fb2b04660fb5c56152e27030e904b5f06b743bb77cac85c5327b7"
+     "9fad628c15f1e94af44e07b00ebe3c15109be28f4d73adf4a9e22090845cbce9"
+     "279f74e365ba5aade8bc702e0588f0c90b5dee6cf04cf61f9455661700a6ebeb"
+     "3199be8536de4a8300eaf9ce6d864a35aa802088c0925e944e2b74a574c68fd0"
+     "7dc296b80df1b29bfc4062d1a66ee91efb462d6a7a934955e94e786394d80b71"
+     "f8e86823197cb9f48666c36734ce73543e6a9b3101282eae8b430ef93be16ccf"
+     "41c478598f93d62f46ec0ef9fbf351a02012e8651e2a0786e0f85e6ac598f599"
+     "b0b76d75c85dce0bb0c6db786bb73bafa4e74caea101d8653a2fc6cde3e3a4d4"
+     "fb3f55ac1ca4d5ba0d35b5507e28fa392b59e796a40d25497b23fd857892f74d"
+     "5612c4b573b3f3b9e3763ce45e29f5c45083c0742be1a9d62193e840cd51eb75"
+     "81406f2e0fd3424aaf89dcf41ce50526784561129bd8fc5e11d55655931e75e6"
+     "5d7bf3ce124535c2415b69c7e017a6258150a11cdfc3029b53310ff50e794967"
+     "33cd1d4d57fdad620c7578ddf7372acb9a7ea106903c152b06781f8554b8e4c9"
+     "e128dc48a4d4754c529057713bfe215fbad0c851e8cb4ecc2e41997a6950dc33"
+     "47d2c2996ec0d4a0f6562d1f06b8f27ed2dec9504f6021d83ae082face3246cd"
+     "d97092d4087a2a1455121ad6ff299130083853ba3c4c6b325685a59d68f8e596"
+     "2e59c24f4daea67be42e30f1e9b40b3169708c5dc97c55e94347380be783499b"
+     "88550f210943832ace0ab1655c541f3912ceaab30e83843682d623c6808502ad"
+     "4780d7ce6e5491e2c1190082f7fe0f812707fc77455616ab6f8b38e796cbffa9"
+     "3e335d794ed3030fefd0dbd7ff2d3555e29481fe4bbb0106ea11c660d6001767"
+     "cc0dbb53a10215b696d391a90de635ba1699072745bf653b53774706999208e3"
+     "795d2a48b56beaa6a811bcf6aad9551878324f81f66cac964f699871491710fa"
+     "e27c391095dcee30face81de5c8354afb2fbe69143e1129109a16d17871fc055"
+     "7661b762556018a44a29477b84757994d8386d6edee909409fabe0631952dad9"
+     "78c4238956c3000f977300c8a079a3a8a8d4d9fee2e68bad91123b58a4aa8588"
+     "4eb6fa2ee436e943b168a0cd8eab11afc0752aebb5d974bba2b2ddc8910fca8f"
+     "6b5c518d1c250a8ce17463b7e435e9e20faa84f3f7defba8b579d4f5925f60c1"
+     "83e0376b5df8d6a3fbdfffb9fb0e8cf41a11799d9471293a810deb7586c131e6"
+     "37768a79b479684b0756dec7c0fc7652082910c37d8863c35b702db3f16000f8"
+     "264b639ee1d01cd81f6ab49a63b6354d902c7f7ed17ecf6e8c2bd5eb6d8ca09c"
+     "34ed3e2fa4a1cb2ce7400c7f1a6c8f12931d8021435bad841fdc1192bd1cc7da"
+     "21055a064d6d673f666baaed35a69519841134829982cbbb76960575f43424db"
+     "3325e2c49c8cc81a8cc94b0d57f1975e6562858db5de840b03338529c64f58d1"
+     "2c613514f52fb56d34d00cc074fe6b5f4769b4b7f0cc12d22787808addcef12c"
+     "c0a0c2f40c110b5b212eb4f2dad6ac9cac07eb70380631151fa75556b0100063"
+     "efc8341e278323cd87eda7d7a3736c8837b10ebfaa0d2be978820378d3d1b2e2"
+     "9283fa483ecced7578f97fdad451535b0173d770b2f433ad0e700decc118ab91"
+     "65ef77d1038e36cb9dd3f514d86713f8242cb1352f5ebf0d2390c7e5bf1fd4d1"
+     "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088"
+     "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476"
+     "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d"
+     "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a"
+     "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016"
+     "922e96b74620a11b52434d551cf7115b8274dfa42b289eeec44d93378d0bf093" default))
  '(evil-want-Y-yank-to-eol nil)
  '(fci-rule-color "#515151" t)
  '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)
  '(frame-background-mode 'dark)
- '(helm-completion-style 'emacs)
+ '(helm-completion-style 'emacs t)
  '(hl-todo-keyword-faces
-   '(("TODO" . "#dc752f")
-     ("NEXT" . "#dc752f")
-     ("THEM" . "#2d9574")
-     ("PROG" . "#4f97d7")
-     ("OKAY" . "#4f97d7")
-     ("DONT" . "#f2241f")
-     ("FAIL" . "#f2241f")
-     ("DONE" . "#86dc2f")
-     ("NOTE" . "#b1951d")
-     ("KLUDGE" . "#b1951d")
-     ("HACK" . "#b1951d")
-     ("TEMP" . "#b1951d")
-     ("FIXME" . "#dc752f")
-     ("XXX+" . "#dc752f")
-     ("\\?\\?\\?+" . "#dc752f")))
+   '(("TODO" . "#dc752f") ("NEXT" . "#dc752f") ("THEM" . "#2d9574")
+     ("PROG" . "#4f97d7") ("OKAY" . "#4f97d7") ("DONT" . "#f2241f")
+     ("FAIL" . "#f2241f") ("DONE" . "#86dc2f") ("NOTE" . "#b1951d")
+     ("KLUDGE" . "#b1951d") ("HACK" . "#b1951d") ("TEMP" . "#b1951d")
+     ("FIXME" . "#dc752f") ("XXX+" . "#dc752f") ("\\?\\?\\?+" . "#dc752f")))
  '(ledger-reports
-   '(("all_assets" "hledger [[ledger-mode-flags]] balance assets liabilities --tree")
-     ("last_months" "%(binary) balance expenses --tree --no-total --row-total --average --monthly --begin '3 months ago'")
-     ("this_month" "%(binary) balance expenses --tree --no-total --row-total --average --monthly --begin 'this month'")
-     ("this_week" "%(binary) balance expenses --tree --no-total --row-total --average --daily --begin 'this week'")))
+   '(("all_assets"
+      "hledger [[ledger-mode-flags]] balance assets liabilities --tree")
+     ("last_months"
+      "%(binary) balance expenses --tree --no-total --row-total --average --monthly --begin '3 months ago'")
+     ("this_month"
+      "%(binary) balance expenses --tree --no-total --row-total --average --monthly --begin 'this month'")
+     ("this_week"
+      "%(binary) balance expenses --tree --no-total --row-total --average --daily --begin 'this week'")))
  '(lsp-haskell-server-path "haskell-language-server-wrapper")
  '(lsp-verilog-server 'hdl-checker)
  '(org-latex-classes
@@ -918,56 +960,79 @@ This function is called at the very end of Spacemacs initialization."
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
       ("\\paragraph{%s}" . "\\paragraph*{%s}")
       ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-     ("report" "\\documentclass[11pt]{report}"
-      ("\\part{%s}" . "\\part*{%s}")
-      ("\\chapter{%s}" . "\\chapter*{%s}")
-      ("\\section{%s}" . "\\section*{%s}")
+     ("report" "\\documentclass[11pt]{report}" ("\\part{%s}" . "\\part*{%s}")
+      ("\\chapter{%s}" . "\\chapter*{%s}") ("\\section{%s}" . "\\section*{%s}")
       ("\\subsection{%s}" . "\\subsection*{%s}")
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-     ("book" "\\documentclass[11pt]{book}"
-      ("\\part{%s}" . "\\part*{%s}")
-      ("\\chapter{%s}" . "\\chapter*{%s}")
-      ("\\section{%s}" . "\\section*{%s}")
+     ("book" "\\documentclass[11pt]{book}" ("\\part{%s}" . "\\part*{%s}")
+      ("\\chapter{%s}" . "\\chapter*{%s}") ("\\section{%s}" . "\\section*{%s}")
       ("\\subsection{%s}" . "\\subsection*{%s}")
       ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
  '(org-preview-latex-default-process 'dvisvgm)
  '(package-selected-packages
-   '(standard-themes night-owl-theme ef-themes telega texfrag vimrc-mode helm-gtags ggtags dactyl-mode counsel-gtags yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify wakatime-mode volatile-highlights vi-tilde-fringe uuidgen use-package undo-tree toml-mode toc-org tagedit sublimity stickyfunc-enhance srefactor spaceline powerline slim-mode shell-pop scss-mode scala-mode sbt-mode sass-mode restart-emacs request rainbow-delimiters racket-mode racer pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el paradox spinner org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-plus-contrib org-mime org-download org-bullets open-junk-file noflet nix-sandbox neotree multi-term move-text mmm-mode markdown-toc macrostep lorem-ipsum livid-mode skewer-mode simple-httpd live-py-mode linum-relative link-hint json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc intero insert-shebang indent-guide hydra lv hy-mode dash-functional hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile projectile helm-mode-manager helm-make helm-hoogle helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets haml-mode google-translate golden-ratio go-guru go-eldoc gnuplot gh-md fuzzy flycheck-rust flycheck-pos-tip pos-tip flycheck-haskell flycheck-elm flycheck pkg-info epl flx-ido flx fish-mode fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg eval-sexp-fu eshell-z eshell-prompt-extras esh-help emmet-mode elm-mode reformatter elisp-slime-nav dumb-jump disaster direnv diminish deft define-word cython-mode company-web web-completion-data company-statistics company-shell company-go go-mode company-ghci company-ghc ghc haskell-mode company-cabal company-c-headers company-auctex company-anaconda company column-enforce-mode color-theme-sanityinc-tomorrow coffee-mode cmm-mode cmake-mode clean-aindent-mode clang-format centered-window cargo markdown-mode rust-mode caddyfile-mode loop bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-compile packed auctex anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core async ac-ispell auto-complete popup fantom-theme))
+   '(sicp standard-themes night-owl-theme ef-themes telega texfrag vimrc-mode
+          helm-gtags ggtags dactyl-mode counsel-gtags yapfify yaml-mode
+          xterm-color ws-butler winum which-key web-mode web-beautify
+          wakatime-mode volatile-highlights vi-tilde-fringe uuidgen use-package
+          undo-tree toml-mode toc-org tagedit sublimity stickyfunc-enhance
+          srefactor spaceline powerline slim-mode shell-pop scss-mode scala-mode
+          sbt-mode sass-mode restart-emacs request rainbow-delimiters
+          racket-mode racer pyvenv pytest pyenv-mode py-isort pug-mode popwin
+          pip-requirements persp-mode pcre2el paradox spinner org-projectile
+          org-category-capture org-present org-pomodoro alert log4e gntp
+          org-plus-contrib org-mime org-download org-bullets open-junk-file
+          noflet nix-sandbox neotree multi-term move-text mmm-mode markdown-toc
+          macrostep lorem-ipsum livid-mode skewer-mode simple-httpd live-py-mode
+          linum-relative link-hint json-mode json-snatcher json-reformat
+          js2-refactor multiple-cursors js2-mode js-doc intero insert-shebang
+          indent-guide hydra lv hy-mode dash-functional hungry-delete htmlize
+          hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers
+          parent-mode highlight-indentation helm-themes helm-swoop helm-pydoc
+          helm-projectile projectile helm-mode-manager helm-make helm-hoogle
+          helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet
+          helm-ag haskell-snippets haml-mode google-translate golden-ratio
+          go-guru go-eldoc gnuplot gh-md fuzzy flycheck-rust flycheck-pos-tip
+          pos-tip flycheck-haskell flycheck-elm flycheck pkg-info epl flx-ido
+          flx fish-mode fill-column-indicator fancy-battery eyebrowse
+          expand-region exec-path-from-shell evil-visualstar
+          evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround
+          evil-search-highlight-persist highlight evil-numbers
+          evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens
+          evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape
+          evil-ediff evil-args evil-anzu anzu evil goto-chg eval-sexp-fu
+          eshell-z eshell-prompt-extras esh-help emmet-mode elm-mode reformatter
+          elisp-slime-nav dumb-jump disaster direnv diminish deft define-word
+          cython-mode company-web web-completion-data company-statistics
+          company-shell company-go go-mode company-ghci company-ghc ghc
+          haskell-mode company-cabal company-c-headers company-auctex
+          company-anaconda company column-enforce-mode
+          color-theme-sanityinc-tomorrow coffee-mode cmm-mode cmake-mode
+          clean-aindent-mode clang-format centered-window cargo markdown-mode
+          rust-mode caddyfile-mode loop bind-map bind-key auto-yasnippet
+          yasnippet auto-highlight-symbol auto-compile packed auctex
+          anaconda-mode pythonic f dash s aggressive-indent adaptive-wrap
+          ace-window ace-link ace-jump-helm-line helm avy helm-core async
+          ac-ispell auto-complete popup fantom-theme))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e"))
  '(safe-local-variable-values
-   '((eval turn-off-auto-fill)
-     (lsp-enabled-clients quote
-                          (scala3ls))
-     (haskell-completion-backend . ghci)
-     (javascript-backend . tide)
-     (javascript-backend . tern)
-     (javascript-backend . lsp)))
+   '((eval turn-off-auto-fill) (lsp-enabled-clients quote (scala3ls))
+     (haskell-completion-backend . ghci) (javascript-backend . tide)
+     (javascript-backend . tern) (javascript-backend . lsp)))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
-   '((20 . "#f2777a")
-     (40 . "#f99157")
-     (60 . "#ffcc66")
-     (80 . "#99cc99")
-     (100 . "#66cccc")
-     (120 . "#6699cc")
-     (140 . "#cc99cc")
-     (160 . "#f2777a")
-     (180 . "#f99157")
-     (200 . "#ffcc66")
-     (220 . "#99cc99")
-     (240 . "#66cccc")
-     (260 . "#6699cc")
-     (280 . "#cc99cc")
-     (300 . "#f2777a")
-     (320 . "#f99157")
-     (340 . "#ffcc66")
-     (360 . "#99cc99")))
+   '((20 . "#f2777a") (40 . "#f99157") (60 . "#ffcc66") (80 . "#99cc99")
+     (100 . "#66cccc") (120 . "#6699cc") (140 . "#cc99cc") (160 . "#f2777a")
+     (180 . "#f99157") (200 . "#ffcc66") (220 . "#99cc99") (240 . "#66cccc")
+     (260 . "#6699cc") (280 . "#cc99cc") (300 . "#f2777a") (320 . "#f99157")
+     (340 . "#ffcc66") (360 . "#99cc99")))
  '(vc-annotate-very-old-color nil)
  '(wakatime-python-bin nil)
  '(warning-suppress-types '((comp)))
  '(window-divider-mode nil)
  '(yas-snippet-dirs
-   '("/Users/linyxus/.emacs.d/private/snippets/" "/Users/linyxus/.emacs.d/layers/+completion/auto-completion/local/snippets" "/Users/linyxus/.spacemacs.d/snippets/" yasnippet-snippets-dir)))
+   '("/Users/linyxus/.emacs.d/private/snippets/"
+     "/Users/linyxus/.emacs.d/layers/+completion/auto-completion/local/snippets"
+     "/Users/linyxus/.spacemacs.d/snippets/" yasnippet-snippets-dir)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
