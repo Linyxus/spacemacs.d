@@ -60,7 +60,7 @@ This function should only modify configuration layer settings."
      (spell-checking :variables spell-checking-enable-by-default nil)
      (wakatime :variables
                wakatime-api-key "d9394843-0d9e-4a27-bc18-e231ba94d41b"
-               wakatime-cli-path "/Users/linyxus/.nix-profile/bin/wakatime-cli")
+               wakatime-cli-path "/opt/homebrew/bin/wakatime-cli")
      (elm :variables
           elm-format-on-save t)
      (rust :variables
