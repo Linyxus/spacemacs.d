@@ -610,8 +610,10 @@ you should place your code here."
   (setq initial-buffer-choice (lambda () (get-buffer "*scratch*")))
 
   (with-eval-after-load 'latex
-    (add-hook 'TeX-mode-hook 'wakatime-mode)
-    )
+    (add-hook 'TeX-mode-hook 'wakatime-mode))
+
+  (with-eval-after-load 'markdown-mode
+    (add-hook 'markdown-mode-hook 'wakatime-mode))
 
   (with-eval-after-load 'undo-tree
     (setq undo-tree-auto-save-history nil))
