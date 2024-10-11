@@ -281,9 +281,9 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
+                         modus-operandi
                          nord
                          modus-vivendi
-                         modus-operandi
                          ;; standard-light
                          ;; standard-dark
                          gruvbox-dark-hard
@@ -298,7 +298,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("JuliaMono"
+   dotspacemacs-default-font '("CommitMono"
                                :size 11
                                :weight normal
                                :width normal
@@ -640,24 +640,34 @@ you should place your code here."
         ledger-binary-path "hledger")
 
   (with-eval-after-load 'ledger-mode
+    ;; (setq-default ledger-reports
+    ;;               '(("last_months" "%(binary) balance expenses --tree --no-total --row-total --average --monthly --begin '6 months ago'")
+    ;;                 ("last_months (base0)" "%(binary) balance 'expenses:(housing:rent|insurance)' --tree --no-total --row-total --average --monthly --begin '6 months ago'")
+    ;;                 ("last_months (base1)" "%(binary) balance 'expenses:(food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --monthly --begin '6 months ago'")
+    ;;                 ("last_months (base0+base1)" "%(binary) balance 'expenses:(housing:rent|insurance|food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --monthly --begin '6 months ago'")
+    ;;                 ("last_months (extra)" "%(binary) balance expenses 'not:expenses:(housing:rent|insurance|food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --monthly --begin '6 months ago'")
+    ;;                 ("weekly (base1)" "%(binary) balance 'expenses:(food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --weekly --begin '6 weeks ago'")
+    ;;                 ("weekly (extra)" "%(binary) balance expenses 'not:expenses:(housing:rent|insurance|food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --weekly --begin '6 weeks ago'")
+    ;;                 ("this week (base1)" "%(binary) balance 'expenses:(food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --daily --begin 'this week'")
+    ;;                 ("this week (extra)" "%(binary) balance expenses 'not:expenses:(housing:rent|insurance|food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --daily --begin 'this week'")
+    ;;                 ("this_month" "%(binary) balance expenses --tree --no-total --row-total --average --monthly --begin 'this month'")
+    ;;                 ("this month (base1)" "%(binary) balance 'expenses:(food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --daily --transpose --begin 'this month'")
+    ;;                 ("this month (extra)" "%(binary) balance expenses 'not:expenses:(housing:rent|insurance|food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --daily --transpose --begin 'this month'")
+    ;;                 ("this_week" "%(binary) balance expenses --tree --no-total --row-total --average --daily --begin 'this week'")
+    ;;                 ("weekly" "%(binary) balance expenses --tree --no-total --row-total --average --weekly --begin '4 weeks ago'")
+    ;;                 ("weekly (more)" "%(binary) balance expenses --tree --no-total --row-total --average --weekly --begin '10 weeks ago'")
+    ;;                 ("daily" "%(binary) balance expenses --tree --no-total --row-total --average --daily --begin '5 days ago'")
+    ;;                 ("all_assets" "%(binary) balance assets liabilities --tree")))
     (setq-default ledger-reports
-                  '(("last_months" "%(binary) balance expenses --tree --no-total --row-total --average --monthly --begin '6 months ago'")
-                    ("last_months (base0)" "%(binary) balance 'expenses:(housing:rent|insurance)' --tree --no-total --row-total --average --monthly --begin '6 months ago'")
-                    ("last_months (base1)" "%(binary) balance 'expenses:(food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --monthly --begin '6 months ago'")
-                    ("last_months (base0+base1)" "%(binary) balance 'expenses:(housing:rent|insurance|food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --monthly --begin '6 months ago'")
-                    ("last_months (extra)" "%(binary) balance expenses 'not:expenses:(housing:rent|insurance|food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --monthly --begin '6 months ago'")
-                    ("weekly (base1)" "%(binary) balance 'expenses:(food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --weekly --begin '6 weeks ago'")
-                    ("weekly (extra)" "%(binary) balance expenses 'not:expenses:(housing:rent|insurance|food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --weekly --begin '6 weeks ago'")
-                    ("this week (base1)" "%(binary) balance 'expenses:(food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --daily --begin 'this week'")
-                    ("this week (extra)" "%(binary) balance expenses 'not:expenses:(housing:rent|insurance|food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --daily --begin 'this week'")
-                    ("this_month" "%(binary) balance expenses --tree --no-total --row-total --average --monthly --begin 'this month'")
-                    ("this month (base1)" "%(binary) balance 'expenses:(food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --daily --transpose --begin 'this month'")
-                    ("this month (extra)" "%(binary) balance expenses 'not:expenses:(housing:rent|insurance|food|alcohol|caffeine|transportation:metro)' --tree --no-total --row-total --average --daily --transpose --begin 'this month'")
-                    ("this_week" "%(binary) balance expenses --tree --no-total --row-total --average --daily --begin 'this week'")
-                    ("weekly" "%(binary) balance expenses --tree --no-total --row-total --average --weekly --begin '4 weeks ago'")
-                    ("weekly (more)" "%(binary) balance expenses --tree --no-total --row-total --average --weekly --begin '10 weeks ago'")
-                    ("daily" "%(binary) balance expenses --tree --no-total --row-total --average --daily --begin '5 days ago'")
-                    ("all_assets" "%(binary) balance assets liabilities --tree")))
+                  '(("monthly expenses" "%(binary) balance expenses --tree --no-total --row-total --average --monthly --begin '6 months ago'")
+                    ("weekly expenses" "%(binary) balance expenses --tree --no-total --row-total --average --weekly --begin '4 weeks ago'")
+                    ("weekly expenses (more)" "%(binary) balance expenses --tree --no-total --row-total --average --weekly --begin '10 weeks ago'")
+                    ("daily expenses" "%(binary) balance expenses --tree --no-total --row-total --average --daily --begin '5 days ago'")
+                    ("expenses this week" "%(binary) balance expenses --tree --no-total --row-total --average --daily --begin 'this week'")
+                    ("expenses this month" "%(binary) balance expenses --tree --no-total --row-total --average --weekly --begin 'this month'")
+                    ("sources this week" "%(binary) balance sources --tree --no-total --row-total --average --daily --begin 'this week'")
+                    ("sources this month" "%(binary) balance sources --tree --no-total --row-total --average --weekly --begin 'this month'")
+                    ("all assets" "%(binary) balance assets liabilities --tree")))
     (setq-default ledger-report-auto-width nil)
     (setq-default ledger-report-use-native-highlighting nil))
 
@@ -934,15 +944,6 @@ This function is called at the very end of Spacemacs initialization."
      ("FAIL" . "#f2241f") ("DONE" . "#86dc2f") ("NOTE" . "#b1951d")
      ("KLUDGE" . "#b1951d") ("HACK" . "#b1951d") ("TEMP" . "#b1951d")
      ("FIXME" . "#dc752f") ("XXX+" . "#dc752f") ("\\?\\?\\?+" . "#dc752f")))
- '(ledger-reports
-   '(("all_assets"
-      "hledger [[ledger-mode-flags]] balance assets liabilities --tree")
-     ("last_months"
-      "%(binary) balance expenses --tree --no-total --row-total --average --monthly --begin '3 months ago'")
-     ("this_month"
-      "%(binary) balance expenses --tree --no-total --row-total --average --monthly --begin 'this month'")
-     ("this_week"
-      "%(binary) balance expenses --tree --no-total --row-total --average --daily --begin 'this week'")))
  '(lsp-haskell-server-path "haskell-language-server-wrapper")
  '(lsp-verilog-server 'hdl-checker)
  '(org-latex-classes
